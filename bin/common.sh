@@ -239,3 +239,9 @@ function configure_keycloak() {
   find "${tools_path}" -type f -name '*.sh' -exec sed -i "s|${BUILD_DIR}|\/app|g" {} \;
   find "${keycloak_path}" -type f -name '*.sh' -exec sed -i "s|${BUILD_DIR}|\/app|g" {} \;
 }
+
+function install_custom_theme() {
+  local dest="$1"
+
+  mv "${BP_DIR}/theme-pass-emploi" "${dest}/themes/theme-pass-emploi"
+}

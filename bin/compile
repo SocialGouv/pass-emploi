@@ -7,6 +7,7 @@ BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 buildpack="$(cd -P "$(dirname "$0")" && pwd)"
+BP_DIR=$(cd "$(dirname "${0:-}")"; cd ..; pwd)
 
 source "${buildpack}/common.sh"
 
@@ -69,6 +70,9 @@ start "Fetch keycloak tools"
 fetch_keycloak_tools "${KEYCLOAK_VERSION}" "${TOOLS_PATH}" "${TMP_PATH}" | indent
 finished
 
+start "Add custom theme"
+install_custom_theme "${KEYCLOAK_PATH}" | indent
+finished
 
 start "Configure postgresql module"
 if [[ -f "${ENV_DIR}/JDBC_POSTGRES_VERSION" ]]; then
