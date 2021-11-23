@@ -9,15 +9,15 @@ ENV_DIR=${3:-}
 buildpack="$(cd -P "$(dirname "$0")" && pwd)"
 BP_DIR=$(cd "$(dirname "${0:-}")"; cd ..; pwd)
 
-
+echo ${ENV_DIR}/DATABASE_URL
 regex='postgres:\/\/([^:\/\s]+):([^:\/\s]+)@([^:\/\s]+):([^:\/\s]+)\/([^:\/\s]+)'
-[[ ${ENV_DIR}/DATABASE_URL =~ $regex ]]
+# [[ "${ENV_DIR}/DATABASE_URL" =~ $regex ]]
 
-echo ${BASH_REMATCH[1]}
-echo ${BASH_REMATCH[2]}
-echo ${BASH_REMATCH[3]}
-echo ${BASH_REMATCH[4]}
-echo ${BASH_REMATCH[5]}
+# echo ${BASH_REMATCH[1]}
+# echo ${BASH_REMATCH[2]}
+# echo ${BASH_REMATCH[3]}
+# echo ${BASH_REMATCH[4]}
+# echo ${BASH_REMATCH[5]}
 
 source "${buildpack}/common.sh"
 
