@@ -3,8 +3,11 @@ name = "Keycloak"
 
   [publish.Ignore]
   files = [
-    "env.sample/",
+    "env.template/",
     ".gitignore",
     "Dockerfile",
-    "docker-compose.yml"
+    "docker-compose.yml",
+    "config",
+    "Makefile",
+    "helpers"
   ]

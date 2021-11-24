@@ -1,85 +1,36 @@
-## Usage
+### Packaging
+Keycloak est packagé dans un custom buildpack pour Scalingo
 
-[Add this buildpack environment variable][1] to your Scalingo application to install the `Keycloak` server:
+### Config
+Keycloak est configuré via un provider terraform
 
-```shell
-BUILDPACK_URL=https://github.com/MTES-MCT/keycloak-buildpack
+### Poste local
+
+`make start`: lance keycloak avec son postgres et applique la configuration terraform  
+`make clean`: supprime tous les volumes et images
+
+### Déploiement sur Scalingo
+
+1. Créer une application sur Scalingo
+2. Ajouter l'addon postgres
+3. Ajouter la variable d'environnement `BUILDPACK_URL=https://github.com/SocialGouv/pass-emploi-auth#main`
+4. Ajiuter toutes les variables dans scalingo du fichier `.env.template` avec les bonnes valeurs
+5. Lancer un déploiement manuel
+
+### Appliquer la configuration du keycloak sur un env de scalingo
+
+1. Lancer le tunnel ssh vers la db `tf_state`. Cette db permet de sauvegarder le tfstate.  
+
+`scalingo --region osc-secnum-fr1 -a pa-tfstate db-tunnel -p 10030 SCALINGO_POSTGRESQL_URL`
+> Il y a un schema par environnement. (staging & prod)
+2. Déchiffrer le vault correspondant à l'environnement souhaité
 ```
-
-Default version is `11.0.2`, but you can choose another one:
-
-```shell
-scalingo env-set KEYCLOAK_VERSION=10.0.2
+cd config/vault
+make run run-vault
+make decrypt-staging
 ```
+3. Lancer le provisionning de l'environnement depuis la racine
+`make provision-staging`
 
-See [Keycloak docs](https://github.com/keycloak/keycloak-containers/tree/master/server) to use keycloak image server.
 
-## Configuration
-
-You must have an add-on database `postgresql`.
-
-Environment variables are set in a `.env` file. You copy the sample one:
-
-```shell
-cp .env.sample .env
-```
-
-### Add a user admin
-
-In .env set these vars:
-
-```shell
-KEYCLOAK_ADMIN_USERNAME=your-admin-name
-KEYCLOAK_ADMIN_PASSWORD=your-admin-password
-```
-
-then build again.
-
-### Export or import data
-
-```shell
-/app/keycloak/bin/standalone.sh \
--Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export \
--Dkeycloak.migration.provider=singleFile \
--Dkeycloak.migration.realmName=my_realm \
--Dkeycloak.migration.usersExportStrategy=REALM_FILE \
--Dkeycloak.migration.file=/tmp/my_realm.json
-```
-
-Don't forget the `-Djboss.socket.binding.port-offset=100` change ports to not stop server running.
-
-You can do the same with import. See [Export/import docs](https://www.keycloak.org/docs/latest/server_admin/index.html#_export_import)
-
-With [scalingo CLI](https://doc.scalingo.com/platform/app/tasks#upload-an-archive-and-extract-it-on-the-server) you can download or upload these files.
-
-## Hacking
-
-Run an interactive docker scalingo stack:
-
-```shell
- docker run --name keycloak -it -p 8080:8080 -v "$(pwd)"/.env:/env/.env -v "$(pwd)":/buildpack scalingo/scalingo-18:latest bash
-```
-
-And test in it:
-
-```shell
-bash buildpack/bin/detect
-bash buildpack/bin/env.sh /env/.env /env
-bash buildpack/bin/compile /build /cache /env
-bash buildpack/bin/release
-```
-
-Run Keycloak server:
-
-```shell
-export PATH=$PATH:/app/java/bin
-./bin/run -b 0.0.0.0
-```
-
-You can also use docker-compose stack:
-
-```shell
-docker-compose up --build -d
-```
-
-[1]: https://doc.scalingo.com/platform/deployment/buildpacks/custom
+> Pour mettre à jour les secrets: `make edit-staging`

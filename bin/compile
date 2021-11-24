@@ -9,16 +9,6 @@ ENV_DIR=${3:-}
 buildpack="$(cd -P "$(dirname "$0")" && pwd)"
 BP_DIR=$(cd "$(dirname "${0:-}")"; cd ..; pwd)
 
-echo ${ENV_DIR}/DATABASE_URL
-regex='postgres:\/\/([^:\/\s]+):([^:\/\s]+)@([^:\/\s]+):([^:\/\s]+)\/([^:\/\s]+)'
-# [[ "${ENV_DIR}/DATABASE_URL" =~ $regex ]]
-
-# echo ${BASH_REMATCH[1]}
-# echo ${BASH_REMATCH[2]}
-# echo ${BASH_REMATCH[3]}
-# echo ${BASH_REMATCH[4]}
-# echo ${BASH_REMATCH[5]}
-
 source "${buildpack}/common.sh"
 
 if [ -n "$BUILDPACK_DEBUG" ]; then
@@ -40,11 +30,7 @@ install_jre
 if [[ -f "$ENV_DIR/KEYCLOAK_VERSION" ]]; then
   KEYCLOAK_VERSION=$(cat "$ENV_DIR/KEYCLOAK_VERSION")
 else
-  KEYCLOAK_VERSION="latest"
-fi
-
-if [[ $KEYCLOAK_VERSION == "latest" ]]; then
-  KEYCLOAK_VERSION=$(fetch_github_latest_release "${TMP_PATH}" "keycloak/keycloak" "12.0.4")
+  KEYCLOAK_VERSION="15.0.2"
 fi
 
 if [ ! -d "${KEYCLOAK_PATH}" ]; then
