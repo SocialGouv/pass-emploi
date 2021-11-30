@@ -1,3 +1,5 @@
 *.iml
 .env
 *.secret
+.DS_Store
+.gradle

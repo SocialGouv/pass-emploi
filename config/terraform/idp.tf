@@ -9,7 +9,7 @@ resource "keycloak_oidc_identity_provider" "realm_identity_provider" {
   store_token                   = true
   add_read_token_role_on_create = true
   logout_url                    = "https://sso-dev.i-milo.fr/auth/realms/imilo-IC-0/protocol/openid-connect/logout"
-  
+  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp.alias
   
   
   extra_config = {

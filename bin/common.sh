@@ -69,7 +69,7 @@ function install_jre() {
   http_code=$($CURL -G -o "$TMP_PATH/jre.json" -w '%{http_code}' -H "accept: application/json" "${jre_query_url}" \
    --data-urlencode "architecture=x64" \
    --data-urlencode "heap_size=normal" \
-   --data-urlencode "image_type=jre" \
+   --data-urlencode "image_type=jdk" \
    --data-urlencode "jvm_impl=hotspot" \
    --data-urlencode "os=linux" \
    --data-urlencode "page=0" \
@@ -92,6 +92,7 @@ function install_jre() {
     jre_release_name="${jre_release_name#\"}"
     local jre_url
     jre_url=$(cat "$TMP_PATH/jre.json" | jq '.[] | .binaries | .[] | .package.link' | xargs)
+    info $jre_url
   else
     warn "AdoptOpenJDK API v3 HTTP STATUS CODE: $http_code"
     local jre_release_name="jdk-11.0.11+9"
@@ -119,7 +120,8 @@ function install_jre() {
     warn "JRE already installed"
   else
     tar xzf "${dist_filename}" -C "${CACHE_DIR}/dist"
-    mv "${CACHE_DIR}/dist/$jre_release_name-jre" "$BUILD_DIR/java"
+    info `ls "${CACHE_DIR}/dist"`
+    mv "${CACHE_DIR}/dist/$jre_release_name" "$BUILD_DIR/java"
     info "JRE archive unzipped to $BUILD_DIR/java"
   fi
   export PATH=$PATH:"${BUILD_DIR}/java/bin"
@@ -244,4 +246,16 @@ function install_custom_theme() {
   local dest="$1"
 
   mv "${BP_DIR}/theme-pass-emploi" "${dest}/themes/theme-pass-emploi"
+}
+
+function install_keycloak_customisation(){
+  local dest="$1"
+  cd "${BP_DIR}/keycloak-customisation"
+  ./gradlew clean jar
+  cp "${BP_DIR}/keycloak-customisation/build/libs/pass-emploi-keycloak-customisation-0.0.1-SNAPSHOT.jar" "${dest}/standalone/deployments/pass-emploi-keycloak-customisation.jar"
+
+}
+function install_prebuild_keycloak_customisation(){
+  local dest="$1"
+  cp "${BP_DIR}/keycloak-customisation/build/libs/pass-emploi-keycloak-customisation-0.0.1-SNAPSHOT.jar" "${dest}/standalone/deployments/pass-emploi-keycloak-customisation.jar"
 }

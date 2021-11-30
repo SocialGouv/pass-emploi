@@ -70,6 +70,11 @@ start "Add custom theme"
 install_custom_theme "${KEYCLOAK_PATH}" | indent
 finished
 
+start "Add keycloak customisation"
+install_keycloak_customisation "${KEYCLOAK_PATH}" | indent
+#install_prebuild_keycloak_customisation "${KEYCLOAK_PATH}" | indent
+finished
+
 start "Configure postgresql module"
 if [[ -f "${ENV_DIR}/JDBC_POSTGRES_VERSION" ]]; then
   JDBC_POSTGRES_VERSION=$(cat "${ENV_DIR}/JDBC_POSTGRES_VERSION")

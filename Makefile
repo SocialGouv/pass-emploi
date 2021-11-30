@@ -20,6 +20,8 @@ provision: start-keycloak
 
 build-keycloak:
 	docker-compose build keycloak
+build-keycloak-nc:
+	docker-compose build --no-cache keycloak
 
 start-keycloak:
 	docker-compose up -d keycloak
@@ -48,3 +50,6 @@ clean: ## Stop and remove containers, volumes and other docker stuff
 provision-staging:
 	docker-compose build --no-cache provision-scalingo-staging
 	docker-compose run --rm provision-scalingo-staging
+
+logs:
+	docker-compose logs -f keycloak

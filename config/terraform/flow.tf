@@ -41,3 +41,18 @@ resource "keycloak_authentication_execution" "pass-emploi-browser-username-passw
   requirement       = "REQUIRED"
   authenticator     = "auth-username-password-form"
 }
+
+###########
+resource "keycloak_authentication_flow" "pass-emploi-idp" {
+  realm_id    = keycloak_realm.pass-emploi.id
+  alias       = "pass-emploi-idp"
+  provider_id = "basic-flow"
+}
+
+resource "keycloak_authentication_execution" "pass-emploi-idp-execution" {
+  depends_on        = [keycloak_authentication_flow.pass-emploi-idp]
+  realm_id          = keycloak_realm.pass-emploi.id
+  parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp.alias
+  requirement       = "REQUIRED"
+  authenticator     = "user-authenticator"
+}

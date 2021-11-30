@@ -1,13 +1,13 @@
-resource "keycloak_openid_client" "web" {
+resource "keycloak_openid_client" "app" {
   realm_id = keycloak_realm.pass-emploi.id
-  client_id = "pass-emploi-web"
-  client_secret = "b208225f-addd-4600-8ae5-de6e19234551"
+  client_id = "pass-emploi-app"
+  client_secret = "ad7bc35e-8b11-4dff-8a6c-341158371b4e"
 
-  name = "Pass Emploi WEB"
+  name = "Pass Emploi APP"
 
   access_type = "CONFIDENTIAL"
   valid_redirect_uris = [
-    "http://localhost:3000/api/auth/callback/keycloak"
+    "une_uri_qui_va_bien"
   ]
 
   standard_flow_enabled = true
