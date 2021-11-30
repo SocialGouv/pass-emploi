@@ -6,8 +6,24 @@ Keycloak est configuré via un provider terraform
 
 ### Poste local
 
-`make start`: lance keycloak avec son postgres et applique la configuration terraform  
-`make clean`: supprime tous les volumes et images
+1. Déchiffrer le vault (demander le password à qui de droit)
+
+```
+cd config/vault
+make run-vault
+make decrypt-staging
+```
+
+2. Générer le fichier `.env` à partir du `.env.template`
+
+3. Lancer le tout
+
+```
+make start #lance keycloak avec son postgres et applique la configuration terraform
+make clean #supprime tous les volumes et images
+```
+
+
 
 ### Déploiement sur Scalingo
 

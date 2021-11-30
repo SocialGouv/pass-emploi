@@ -2,8 +2,8 @@
 
 build:
 	docker build -t ansible-vault .
+	
 run-vault: build
-	#docker run --rm -it -v $(pwd):/ansible ansible-vault /bin/bash
 	./vault.sh
 
 #INSIDE CONTAINER
