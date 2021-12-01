@@ -2,6 +2,7 @@
 // la priorité est assurée par l'ordre de création
 // source --> https://github.com/mrparkers/terraform-provider-keycloak/issues/296
 
+########### BROWSER ###########
 resource "keycloak_authentication_flow" "pass-emploi-browser" {
   realm_id    = keycloak_realm.pass-emploi.id
   alias       = "pass-emploi-browser"
@@ -42,7 +43,7 @@ resource "keycloak_authentication_execution" "pass-emploi-browser-username-passw
   authenticator     = "auth-username-password-form"
 }
 
-###########
+########### IDP ###########
 resource "keycloak_authentication_flow" "pass-emploi-idp" {
   realm_id    = keycloak_realm.pass-emploi.id
   alias       = "pass-emploi-idp"

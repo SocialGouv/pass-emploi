@@ -1,14 +1,14 @@
-resource "keycloak_oidc_identity_provider" "realm_identity_provider" {
+resource "keycloak_oidc_identity_provider" "idp_similo_conseiller" {
   realm                         = keycloak_realm.pass-emploi.id
   alias                         = "similo-conseiller"
   display_name                  = "SIMILO - Conseillers"
-  authorization_url             = "https://sso-dev.i-milo.fr/auth/realms/imilo-IC-0/protocol/openid-connect/auth"
+  authorization_url             = var.idp_similo_conseiller_authorization_url
   client_id                     = "sue-portail-conseiller"
-  client_secret                 = "NO_SECRET"
-  token_url                     = "https://sso-dev.i-milo.fr/auth/realms/imilo-IC-0/protocol/openid-connect/token"
+  client_secret                 = var.idp_similo_conseiller_client_secret
+  token_url                     = var.idp_similo_conseiller_token_url
   store_token                   = true
   add_read_token_role_on_create = true
-  logout_url                    = "https://sso-dev.i-milo.fr/auth/realms/imilo-IC-0/protocol/openid-connect/logout"
+  logout_url                    = var.idp_similo_conseiller_logout_url
   post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp.alias
   
   
