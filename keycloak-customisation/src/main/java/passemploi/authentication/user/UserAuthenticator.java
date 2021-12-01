@@ -26,6 +26,7 @@ public class UserAuthenticator implements Authenticator {
     AccessTokenResponse federatedToken = null;
     try {
       federatedToken = JsonSerialization.readValue(federatedIdentityModel.getToken(), AccessTokenResponse.class);
+      
     } catch (IOException e) {
       throw new IdentityBrokerException("Could not decode access token response.", e);
     }

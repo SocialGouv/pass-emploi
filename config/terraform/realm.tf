@@ -9,7 +9,6 @@ resource "keycloak_realm" "pass-emploi" {
   ssl_required                            = var.ssl_required
   #rules: hashAlgorithm specialChars passwordHistory upperCase lowerCase regexPattern digits notUsername forceExpiredPasswordChange hashIterations passwordBlacklist length
   # https://github.com/keycloak/keycloak-documentation/blob/master/server_admin/topics/authentication/password-policies.adoc
-  password_policy = "specialChars(1) and digits(1) and lowerCase(1) and upperCase(1) and length(10) and notUsername"
   internationalization {
     supported_locales = [
       "fr"

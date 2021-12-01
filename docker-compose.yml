@@ -41,12 +41,16 @@ services:
         build: ./config/terraform
         user: root
         command: [ 'make', 'apply' ]
+<<<<<<< Updated upstream
         env_file: config/vault/staging.secret
     provision-scalingo-prod:
         build: ./config/terraform
         user: root
         command: [ 'make', 'apply' ]
         env_file: config/vault/prod.secret
+=======
+#        env_file: config/vault/staging.secret
+>>>>>>> Stashed changes
     keycloak-fwd:
         image: marcnuri/port-forward
         environment:
