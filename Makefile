@@ -51,5 +51,9 @@ provision-staging:
 	docker-compose build --no-cache provision-scalingo-staging
 	docker-compose run --rm provision-scalingo-staging
 
+provision-prod:
+	docker-compose build --no-cache provision-scalingo-prod
+	docker-compose run --rm provision-scalingo-prod
+
 logs:
 	docker-compose logs -f keycloak

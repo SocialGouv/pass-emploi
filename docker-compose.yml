@@ -42,6 +42,11 @@ services:
         user: root
         command: [ 'make', 'apply' ]
         env_file: config/vault/staging.secret
+    provision-scalingo-prod:
+        build: ./config/terraform
+        user: root
+        command: [ 'make', 'apply' ]
+        env_file: config/vault/prod.secret
     keycloak-fwd:
         image: marcnuri/port-forward
         environment:
