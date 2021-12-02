@@ -42,6 +42,7 @@ terraform-init:
 	terraform init -backend-config="conn_str=${TFSTATE_DATABASE_URL}" -backend-config="schema_name=${TFSTATE_DATABASE_SCHEMA}" -input=false
 
 terraform-apply: terraform-init
+	rm config/terraform/users.tf 
 	terraform apply -auto-approve -input=false
 
 check-config:
