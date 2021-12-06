@@ -11,12 +11,11 @@ import passemploi.authentication.user.model.*;
 import passemploi.authentication.user.repository.FetchUtilisateurException;
 import passemploi.authentication.user.repository.UserRepository;
 
-import java.io.IOException;
 import java.util.List;
 
 public class PassEmploiAuthenticator implements Authenticator {
 
-    protected static final Logger logger = Logger.getLogger(SsoMiloAuthenticator.class);
+    protected static final Logger logger = Logger.getLogger(PassEmploiAuthenticator.class);
     private final UserRepository userRepository;
 
     public PassEmploiAuthenticator() {
@@ -35,9 +34,6 @@ public class PassEmploiAuthenticator implements Authenticator {
             context.getUser().setEmail(utilisateur.getEmail());
             context.getUser().setFirstName(utilisateur.getPrenom());
             context.getUser().setLastName(utilisateur.getNom());
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            throw new IdentityBrokerException("Could not decode access token response.", e);
         } catch (FetchUtilisateurException e) {
             logger.error(e.getMessage());
             throw new IdentityBrokerException(e.getMessage());

@@ -32,7 +32,7 @@ import passemploi.authentication.user.model.Type;
 import java.util.List;
 
 public class ConseillerMiloAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
-  public static final String PROVIDER_ID = "user-authenticator";
+  public static final String PROVIDER_ID = "user-authenticator-conseiller-milo";
 
   @Override
   public String getId() {

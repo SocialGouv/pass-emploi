@@ -64,5 +64,5 @@ resource "keycloak_authentication_execution" "pass-emploi-idp-execution" {
   realm_id          = keycloak_realm.pass-emploi.id
   parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp.alias
   requirement       = "REQUIRED"
-  authenticator     = "user-authenticator"
+  authenticator     = "user-authenticator-conseiller-milo"
 }

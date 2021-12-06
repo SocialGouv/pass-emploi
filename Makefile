@@ -37,9 +37,7 @@ forward-local: forward-local-keycloak
 
 start: start-keycloak-local ## Start the application
 	echo AUTH SERVER STARTED
-	#docker-compose logs -f keycloak
 
-#start-keycloak-local: export API_BASE_URL=http://${API_HOST}:8080
 start-keycloak-local: provision forward-local-keycloak
 
 clean: ##Stop and remove containers, volumes and other docker stuff
@@ -47,12 +45,12 @@ clean: ##Stop and remove containers, volumes and other docker stuff
 	docker-compose rm -v
 
 provision-staging:
-	docker-compose build --no-cache provision-scalingo-staging
-	docker-compose run --rm provision-scalingo-staging
+	docker-compose -f deploy/docker-compose.yml build --no-cache provision-scalingo-staging
+	docker-compose -f deploy/docker-compose.yml run --rm provision-scalingo-staging 
 
 provision-prod:
-	docker-compose build --no-cache provision-scalingo-prod
-	docker-compose run --rm provision-scalingo-prod
+	docker-compose -f deploy/docker-compose.yml build --no-cache provision-scalingo-prod
+	docker-compose -f deploy/docker-compose.yml run --rm provision-scalingo-prod
 
 logs:
 	docker-compose logs -f keycloak

@@ -40,16 +40,6 @@ services:
             KEYCLOAK_CLIENT_ID: terraform
             KEYCLOAK_CLIENT_SECRET: 111ed886-126a-11e9-ab12-23b741c9418a
             TF_VAR_restrict_valid_redirect_uris: "false"
-    provision-scalingo-staging:
-        build: ./config/terraform
-        user: root
-        command: [ 'make', 'apply' ]
-        env_file: config/vault/staging.secret
-    provision-scalingo-prod:
-        build: ./config/terraform
-        user: root
-        command: [ 'make', 'apply' ]
-        env_file: config/vault/prod.secret
     keycloak-fwd:
         image: marcnuri/port-forward
         environment:
