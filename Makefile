@@ -11,7 +11,7 @@ export KEYCLOAK_CLIENT_SECRET=111ed886-126a-11e9-ab12-23b741c9418a
 export DOCKER_GATEWAY_IP=$(shell docker network inspect bridge | grep Gateway | cut -d: -f2 | awk '{ print $1}'| tr -d '" ')
 export API_HOST=$(shell which apt-get > /dev/null && echo ${DOCKER_GATEWAY_IP} || echo 'host.docker.internal')
 
-help: ## Show this help
+help: ##Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 provision: start-keycloak
@@ -41,9 +41,8 @@ start: start-keycloak-local ## Start the application
 
 #start-keycloak-local: export API_BASE_URL=http://${API_HOST}:8080
 start-keycloak-local: provision forward-local-keycloak
-	#echo "running keycloak with API_BASE_URL: ${API_BASE_URL}"
 
-clean: ## Stop and remove containers, volumes and other docker stuff
+clean: ##Stop and remove containers, volumes and other docker stuff
 	docker-compose down --volumes --rmi local
 	docker-compose rm -v
 

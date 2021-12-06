@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-package passemploi.authentication.user;
+package passemploi.authentication.user.factory;
 
-import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
@@ -26,12 +25,13 @@ import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
+import passemploi.authentication.user.authenticator.SsoMiloAuthenticator;
+import passemploi.authentication.user.model.Structure;
+import passemploi.authentication.user.model.Type;
 
 import java.util.List;
 
-public class UserAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
-  protected static final Logger logger = Logger.getLogger(UserAuthenticatorFactory.class);
-
+public class ConseillerMiloAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
   public static final String PROVIDER_ID = "user-authenticator";
 
   @Override
@@ -41,7 +41,7 @@ public class UserAuthenticatorFactory implements AuthenticatorFactory, Configura
 
   @Override
   public Authenticator create(KeycloakSession session) {
-    return new UserAuthenticator();
+    return new SsoMiloAuthenticator(Structure.MILO, Type.CONSEILLER);
   }
 
   private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
@@ -71,17 +71,17 @@ public class UserAuthenticatorFactory implements AuthenticatorFactory, Configura
 
   @Override
   public String getHelpText() {
-    return "Récuperer l'utilisateur PassEmploi";
+    return "Récuperer l'utilisateur Conseiller Milo";
   }
 
   @Override
   public String getDisplayType() {
-    return "UserRessource PassEmploi";
+    return "UserRessource Conseiller Milo";
   }
 
   @Override
   public String getReferenceCategory() {
-    return "UserRessource PassEmploi";
+    return "UserRessource Conseiller Milo";
   }
 
   @Override
