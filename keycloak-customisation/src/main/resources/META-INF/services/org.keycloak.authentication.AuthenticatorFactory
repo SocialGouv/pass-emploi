@@ -15,4 +15,5 @@
 # limitations under the License.
 #
 
-passemploi.authentication.user.UserAuthenticatorFactory
+passemploi.authentication.user.factory.ConseillerMiloAuthenticatorFactory
+passemploi.authentication.user.factory.PassEmploiUserAuthenticatorFactory

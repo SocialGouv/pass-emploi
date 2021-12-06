@@ -1,0 +1,14 @@
+version: '3.8'
+
+
+services: 
+    provision-scalingo-staging:
+        build: ../config/terraform
+        user: root
+        command: [ 'make', 'apply' ]
+        env_file: ../config/vault/staging.secret
+    provision-scalingo-prod:
+        build: ../config/terraform
+        user: root
+        command: [ 'make', 'apply' ]
+        env_file: ../config/vault/prod.secret
