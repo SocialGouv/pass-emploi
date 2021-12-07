@@ -1,4 +1,4 @@
-resource "keycloak_oidc_identity_provider" "idp_similo_conseiller" {
+resource "keycloak_oidc_identity_provider" "idp_milo_conseiller" {
   realm                         = keycloak_realm.pass-emploi.id
   alias                         = "similo-conseiller"
   display_name                  = "SIMILO - Conseillers"
@@ -9,7 +9,7 @@ resource "keycloak_oidc_identity_provider" "idp_similo_conseiller" {
   store_token                   = true
   add_read_token_role_on_create = true
   logout_url                    = var.idp_similo_conseiller_logout_url
-  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp.alias
+  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-conseiller.alias
   sync_mode                     = "FORCE"
   
   extra_config = {
@@ -17,15 +17,47 @@ resource "keycloak_oidc_identity_provider" "idp_similo_conseiller" {
   }
 }
 
-resource "keycloak_custom_identity_provider_mapper" "id_milo" {
+resource "keycloak_custom_identity_provider_mapper" "id_milo_conseiller" {
   realm                    = keycloak_realm.pass-emploi.id
   name                     = "id-milo-attribute-importer"
-  identity_provider_alias  = keycloak_oidc_identity_provider.idp_similo_conseiller.alias
+  identity_provider_alias  = keycloak_oidc_identity_provider.idp_milo_conseiller.alias
   identity_provider_mapper = "oidc-user-attribute-idp-mapper"
 
   extra_config = {
     claim = "sub"
     syncMode = "IMPORT"
    "user.attribute" = "idMilo"
+  }
+}
+
+resource "keycloak_oidc_identity_provider" "idp_milo_jeune" {
+  realm                         = keycloak_realm.pass-emploi.id
+  alias                         = "similo-jeune"
+  display_name                  = "SIMILO - Jeunes"
+  authorization_url             = var.idp_similo_jeune_authorization_url
+  client_id                     = "sue-portail-jeunes"
+  client_secret                 = var.idp_similo_jeune_client_secret
+  token_url                     = var.idp_similo_jeune_token_url
+  store_token                   = true
+  add_read_token_role_on_create = true
+  logout_url                    = var.idp_similo_jeune_logout_url
+  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-jeune.alias
+  sync_mode                     = "FORCE"
+
+  extra_config = {
+    "clientAuthMethod" = "client_secret_post"
+  }
+}
+
+resource "keycloak_custom_identity_provider_mapper" "id_milo_jeune" {
+  realm                    = keycloak_realm.pass-emploi.id
+  name                     = "id-milo-jeune-attribute-importer"
+  identity_provider_alias  = keycloak_oidc_identity_provider.idp_milo_jeune.alias
+  identity_provider_mapper = "oidc-user-attribute-idp-mapper"
+
+  extra_config = {
+    claim = "sub"
+    syncMode = "IMPORT"
+    "user.attribute" = "idMilo"
   }
 }

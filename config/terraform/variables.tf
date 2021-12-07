@@ -44,6 +44,8 @@ variable "web_valid_redirect_uris" {
 }
 
 ############### IDP SECRETS ###############
+
+############### CONSEILLERS MILO ###############
 variable "idp_similo_conseiller_authorization_url" {
   type = string
   default = "https://sso-dev.i-milo.fr/auth/realms/imilo-IC-0/protocol/openid-connect/auth"
@@ -66,6 +68,35 @@ variable "idp_similo_conseiller_logout_url" {
 }
 
 variable "idp_similo_conseiller_client_secret" {
+  type = string
+  default = "NO_SECRET"
+  sensitive = true
+  description = "client_secret"
+}
+
+############### JEUNES MILO ###############
+variable "idp_similo_jeune_authorization_url" {
+  type = string
+  default = "https://sso-dev.i-milo.fr/auth/realms/sue-jeunes-ic0/protocol/openid-connect/auth"
+  sensitive = true
+  description = "authorization_url"
+}
+
+variable "idp_similo_jeune_token_url" {
+  type = string
+  default = "https://sso-dev.i-milo.fr/auth/realms/sue-jeunes-ic0/protocol/openid-connect/token"
+  sensitive = true
+  description = "token_url"
+}
+
+variable "idp_similo_jeune_logout_url" {
+  type = string
+  default = "https://sso-dev.i-milo.fr/auth/realms/sue-jeunes-ic0/protocol/openid-connect/logout"
+  sensitive = true
+  description = "logout_url"
+}
+
+variable "idp_similo_jeune_client_secret" {
   type = string
   default = "NO_SECRET"
   sensitive = true

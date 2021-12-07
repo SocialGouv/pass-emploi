@@ -16,4 +16,5 @@
 #
 
 passemploi.authentication.user.factory.ConseillerMiloAuthenticatorFactory
+passemploi.authentication.user.factory.JeuneMiloAuthenticatorFactory
 passemploi.authentication.user.factory.PassEmploiUserAuthenticatorFactory
