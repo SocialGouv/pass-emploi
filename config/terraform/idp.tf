@@ -1,3 +1,4 @@
+########### CONSEILLER MILO ###########
 resource "keycloak_oidc_identity_provider" "idp_milo_conseiller" {
   realm                         = keycloak_realm.pass-emploi.id
   alias                         = "similo-conseiller"
@@ -9,7 +10,7 @@ resource "keycloak_oidc_identity_provider" "idp_milo_conseiller" {
   store_token                   = true
   add_read_token_role_on_create = true
   logout_url                    = var.idp_similo_conseiller_logout_url
-  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-conseiller.alias
+  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-conseiller-milo.alias
   sync_mode                     = "FORCE"
   
   extra_config = {
@@ -30,6 +31,7 @@ resource "keycloak_custom_identity_provider_mapper" "id_milo_conseiller" {
   }
 }
 
+########### JEUNE MILO ###########
 resource "keycloak_oidc_identity_provider" "idp_milo_jeune" {
   realm                         = keycloak_realm.pass-emploi.id
   alias                         = "similo-jeune"
@@ -41,7 +43,7 @@ resource "keycloak_oidc_identity_provider" "idp_milo_jeune" {
   store_token                   = true
   add_read_token_role_on_create = true
   logout_url                    = var.idp_similo_jeune_logout_url
-  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-jeune.alias
+  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-jeune-milo.alias
   sync_mode                     = "FORCE"
 
   extra_config = {
@@ -59,5 +61,26 @@ resource "keycloak_custom_identity_provider_mapper" "id_milo_jeune" {
     claim = "sub"
     syncMode = "IMPORT"
     "user.attribute" = "idMilo"
+  }
+}
+
+########### CONSEILLER MILO ###########
+resource "keycloak_oidc_identity_provider" "idp_pe_conseiller" {
+  realm                         = keycloak_realm.pass-emploi.id
+  alias                         = "pe-conseiller"
+  display_name                  = "PE - Conseillers"
+  authorization_url             = var.idp_pe_conseiller_authorization_url
+  client_id                     = var.idp_pe_conseiller_client_id
+  client_secret                 = var.idp_pe_conseiller_client_secret
+  token_url                     = var.idp_pe_conseiller_token_url
+  store_token                   = true
+  add_read_token_role_on_create = true
+  logout_url                    = var.idp_pe_conseiller_logout_url
+  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-conseiller-pe.alias
+  sync_mode                     = "FORCE"
+  default_scopes                = "openid application_AGT_AAA-TEST-APPLI email profile"
+
+  extra_config = {
+    "clientAuthMethod" = "client_secret_post"
   }
 }

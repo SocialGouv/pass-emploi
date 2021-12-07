@@ -19,13 +19,11 @@ import java.util.List;
 public class SsoMiloAuthenticator implements Authenticator {
     protected static final Logger logger = Logger.getLogger(SsoMiloAuthenticator.class);
     private final UserRepository userRepository;
-    private final Structure structure;
     private final Type type;
 
-    public SsoMiloAuthenticator(Structure structure, Type type) {
-        this.structure = structure;
+    public SsoMiloAuthenticator(Type type) {
         this.type = type;
-        userRepository = new UserRepository(System.getenv("API_BASE_URL"), System.getenv("API_BASE_URL"));
+        userRepository = new UserRepository();
     }
 
     @Override
@@ -34,7 +32,7 @@ public class SsoMiloAuthenticator implements Authenticator {
             String tokenFirstName = context.getUser().getFirstAttribute("firstName");
             String tokenLastName = context.getUser().getFirstAttribute("lastName");
             String tokenEmail = context.getUser().getFirstAttribute("email");
-            UtilisateurSso utilisateurSso = new UtilisateurSso(tokenFirstName, tokenLastName, tokenEmail, this.structure, this.type);
+            UtilisateurSso utilisateurSso = new UtilisateurSso(tokenFirstName, tokenLastName, tokenEmail, Structure.MILO, this.type);
             Utilisateur utilisateur = userRepository.createOrFetch(utilisateurSso, context.getUser().getFirstAttribute("idMilo"));
             context.getUser().setAttribute("id_user", List.of(utilisateur.getId()));
             context.getUser().setAttribute("type", List.of(utilisateur.getType().toString()));
