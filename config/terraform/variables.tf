@@ -37,8 +37,7 @@ variable "web_client_secret" {
 
 variable "web_valid_redirect_uris" {
   type = list(string)
-  default = [
-    "http://localhost:3000/api/auth/callback/keycloak"]
+  default = ["*"]
   sensitive = true
   description = "Valid redirect uris for web"
 }
@@ -99,6 +98,42 @@ variable "idp_similo_jeune_logout_url" {
 variable "idp_similo_jeune_client_secret" {
   type = string
   default = "NO_SECRET"
+  sensitive = true
+  description = "client_secret"
+}
+
+############### CONSEILLER MILO ###############
+variable "idp_pe_conseiller_authorization_url" {
+  type = string
+  default = "https://authentification-agent-va.pe-qvr.net/connexion/oauth2/authorize?realm=/agent"
+  sensitive = true
+  description = "authorization_url"
+}
+
+variable "idp_pe_conseiller_token_url" {
+  type = string
+  default = "https://authentification-agent-va.pe-qvr.net/connexion/oauth2/access_token?realm=/agent"
+  sensitive = true
+  description = "token_url"
+}
+
+variable "idp_pe_conseiller_logout_url" {
+  type = string
+  default = "https://authentification-agent-va.pe-qvr.net/connexion/oauth2/connect/endSession?realm=/agent"
+  sensitive = true
+  description = "logout_url"
+}
+
+variable "idp_pe_conseiller_client_id" {
+  type = string
+  default = "AGT_AAA-TEST-APPLI_2FCA346DB656187102CE806AC732E06A62DF0DBB2829E511A770556D398E1A6E"
+  sensitive = true
+  description = "client_id"
+}
+
+variable "idp_pe_conseiller_client_secret" {
+  type = string
+  default = "A68B412C4282555F15546CF6E1FC42893B7E07F271557CEB021821098DD66C1B"
   sensitive = true
   description = "client_secret"
 }

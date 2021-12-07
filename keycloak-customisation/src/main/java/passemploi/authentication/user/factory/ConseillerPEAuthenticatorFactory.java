@@ -25,14 +25,13 @@ import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
-import passemploi.authentication.user.authenticator.SsoMiloAuthenticator;
-import passemploi.authentication.user.model.Structure;
-import passemploi.authentication.user.model.Type;
+import passemploi.authentication.user.authenticator.SsoPEConseillerAuthenticator;
 
 import java.util.List;
 
-public class JeuneMiloAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
-  public static final String PROVIDER_ID = "user-authenticator-jeune-milo";
+public class ConseillerPEAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
+  public static final String PROVIDER_ID = "user-authenticator-conseiller-pe";
+  public static final String PROVIDER_ALIAS = "pe-conseiller";
 
   @Override
   public String getId() {
@@ -41,7 +40,7 @@ public class JeuneMiloAuthenticatorFactory implements AuthenticatorFactory, Conf
 
   @Override
   public Authenticator create(KeycloakSession session) {
-    return new SsoMiloAuthenticator(Type.JEUNE);
+    return new SsoPEConseillerAuthenticator(PROVIDER_ALIAS);
   }
 
   private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
@@ -71,17 +70,17 @@ public class JeuneMiloAuthenticatorFactory implements AuthenticatorFactory, Conf
 
   @Override
   public String getHelpText() {
-    return "Récuperer l'utilisateur Jeune Milo";
+    return "Récuperer l'utilisateur Conseiller PE";
   }
 
   @Override
   public String getDisplayType() {
-    return "UserRessource Jeune Milo";
+    return "UserRessource Conseiller PE";
   }
 
   @Override
   public String getReferenceCategory() {
-    return "UserRessource Jeune Milo";
+    return "UserRessource Conseiller PE";
   }
 
   @Override

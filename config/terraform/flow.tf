@@ -54,31 +54,46 @@ resource "keycloak_authentication_execution" "pass-emploi-custom-execution" {
 
 ########### IDP ###########
 ########### CONSEILLER MILO ###########
-resource "keycloak_authentication_flow" "pass-emploi-idp-conseiller" {
+resource "keycloak_authentication_flow" "pass-emploi-idp-conseiller-milo" {
   realm_id    = keycloak_realm.pass-emploi.id
   alias       = "pass-emploi-idp-conseiller"
   provider_id = "basic-flow"
 }
 
-resource "keycloak_authentication_execution" "pass-emploi-idp-execution" {
-  depends_on        = [keycloak_authentication_flow.pass-emploi-idp-conseiller]
+resource "keycloak_authentication_execution" "pass-emploi-idp-conseiller-milo-execution" {
+  depends_on        = [keycloak_authentication_flow.pass-emploi-idp-conseiller-milo]
   realm_id          = keycloak_realm.pass-emploi.id
-  parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp-conseiller.alias
+  parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp-conseiller-milo.alias
   requirement       = "REQUIRED"
   authenticator     = "user-authenticator-conseiller-milo"
 }
 
 ########### JEUNE MILO ###########
-resource "keycloak_authentication_flow" "pass-emploi-idp-jeune" {
+resource "keycloak_authentication_flow" "pass-emploi-idp-jeune-milo" {
   realm_id    = keycloak_realm.pass-emploi.id
   alias       = "pass-emploi-idp-jeune"
   provider_id = "basic-flow"
 }
 
 resource "keycloak_authentication_execution" "pass-emploi-idp-jeune-execution" {
-  depends_on        = [keycloak_authentication_flow.pass-emploi-idp-jeune]
+  depends_on        = [keycloak_authentication_flow.pass-emploi-idp-jeune-milo]
   realm_id          = keycloak_realm.pass-emploi.id
-  parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp-jeune.alias
+  parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp-jeune-milo.alias
   requirement       = "REQUIRED"
   authenticator     = "user-authenticator-jeune-milo"
+}
+
+########### CONSEILLER PE ###########
+resource "keycloak_authentication_flow" "pass-emploi-idp-conseiller-pe" {
+  realm_id    = keycloak_realm.pass-emploi.id
+  alias       = "pass-emploi-idp-conseiller-pe"
+  provider_id = "basic-flow"
+}
+
+resource "keycloak_authentication_execution" "pass-emploi-idp-conseiller-pe-execution" {
+  depends_on        = [keycloak_authentication_flow.pass-emploi-idp-conseiller-pe]
+  realm_id          = keycloak_realm.pass-emploi.id
+  parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp-conseiller-pe.alias
+  requirement       = "REQUIRED"
+  authenticator     = "user-authenticator-conseiller-pe"
 }

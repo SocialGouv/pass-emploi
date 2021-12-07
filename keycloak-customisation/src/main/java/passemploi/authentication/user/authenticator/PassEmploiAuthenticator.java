@@ -19,7 +19,7 @@ public class PassEmploiAuthenticator implements Authenticator {
     private final UserRepository userRepository;
 
     public PassEmploiAuthenticator() {
-        userRepository = new UserRepository(System.getenv("API_BASE_URL"), System.getenv("API_KEY"));
+        userRepository = new UserRepository();
     }
 
     @Override
@@ -40,7 +40,6 @@ public class PassEmploiAuthenticator implements Authenticator {
             throw new IdentityBrokerException(e.getMessage());
         }
         context.success();
-
     }
 
 

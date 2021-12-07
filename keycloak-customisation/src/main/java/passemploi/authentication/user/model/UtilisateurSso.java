@@ -11,7 +11,7 @@ public class UtilisateurSso {
     private String email;
     private Structure structure;
     private Type type;
-
+    
     public UtilisateurSso(Structure structure, Type type) {
         this.structure = structure;
         this.type = type;

@@ -16,14 +16,12 @@ import java.net.URI;
 
 public class UserRepository {
     private final CloseableHttpClient httpClient;
-    private final String apiBaseUrl;
-    private final String apiKey;
+    private final String apiBaseUrl = System.getenv("API_BASE_URL");
+    private final String apiKey = System.getenv("API_KEY");
     private final Logger logger = Logger.getLogger(UserRepository.class);
 
-    public UserRepository(String apiBaseUrl, String apiKey) {
+    public UserRepository() {
         this.httpClient = HttpClientBuilder.create().build();
-        this.apiBaseUrl = apiBaseUrl;
-        this.apiKey = apiKey;
     }
 
     public Utilisateur createOrFetch(UtilisateurSso utilisateurSso, String idUtilisateur) throws FetchUtilisateurException {

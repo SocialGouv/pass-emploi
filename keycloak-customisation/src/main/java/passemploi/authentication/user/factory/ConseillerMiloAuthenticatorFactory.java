@@ -26,73 +26,72 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import passemploi.authentication.user.authenticator.SsoMiloAuthenticator;
-import passemploi.authentication.user.model.Structure;
 import passemploi.authentication.user.model.Type;
 
 import java.util.List;
 
 public class ConseillerMiloAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
-  public static final String PROVIDER_ID = "user-authenticator-conseiller-milo";
+    public static final String PROVIDER_ID = "user-authenticator-conseiller-milo";
 
-  @Override
-  public String getId() {
-    return PROVIDER_ID;
-  }
+    @Override
+    public String getId() {
+        return PROVIDER_ID;
+    }
 
-  @Override
-  public Authenticator create(KeycloakSession session) {
-    return new SsoMiloAuthenticator(Structure.MILO, Type.CONSEILLER);
-  }
+    @Override
+    public Authenticator create(KeycloakSession session) {
+        return new SsoMiloAuthenticator(Type.CONSEILLER);
+    }
 
-  private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
-    AuthenticationExecutionModel.Requirement.REQUIRED,
-    AuthenticationExecutionModel.Requirement.DISABLED
-  };
+    private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
+            AuthenticationExecutionModel.Requirement.REQUIRED,
+            AuthenticationExecutionModel.Requirement.DISABLED
+    };
 
-  @Override
-  public AuthenticationExecutionModel.Requirement[] getRequirementChoices() {
-    return REQUIREMENT_CHOICES;
-  }
+    @Override
+    public AuthenticationExecutionModel.Requirement[] getRequirementChoices() {
+        return REQUIREMENT_CHOICES;
+    }
 
-  @Override
-  public boolean isUserSetupAllowed() {
-    return false;
-  }
+    @Override
+    public boolean isUserSetupAllowed() {
+        return false;
+    }
 
-  @Override
-  public boolean isConfigurable() {
-    return false;
-  }
+    @Override
+    public boolean isConfigurable() {
+        return false;
+    }
 
-  @Override
-  public List<ProviderConfigProperty> getConfigProperties() {
-    return null;
-  }
+    @Override
+    public List<ProviderConfigProperty> getConfigProperties() {
+        return null;
+    }
 
-  @Override
-  public String getHelpText() {
-    return "Récuperer l'utilisateur Conseiller Milo";
-  }
+    @Override
+    public String getHelpText() {
+        return "Récuperer l'utilisateur Conseiller Milo";
+    }
 
-  @Override
-  public String getDisplayType() {
-    return "UserRessource Conseiller Milo";
-  }
+    @Override
+    public String getDisplayType() {
+        return "UserRessource Conseiller Milo";
+    }
 
-  @Override
-  public String getReferenceCategory() {
-    return "UserRessource Conseiller Milo";
-  }
+    @Override
+    public String getReferenceCategory() {
+        return "UserRessource Conseiller Milo";
+    }
 
-  @Override
-  public void init(Config.Scope config) {
-  }
+    @Override
+    public void init(Config.Scope config) {
+    }
 
-  @Override
-  public void postInit(KeycloakSessionFactory factory) {
-  }
+    @Override
+    public void postInit(KeycloakSessionFactory factory) {
+    }
 
-  @Override
-  public void close() {
-  }
+    @Override
+    public void close() {
+    }
 }
