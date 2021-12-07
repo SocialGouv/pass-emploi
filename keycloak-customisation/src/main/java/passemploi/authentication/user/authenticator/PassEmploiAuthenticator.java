@@ -25,8 +25,9 @@ public class PassEmploiAuthenticator implements Authenticator {
     @Override
     public void authenticate(AuthenticationFlowContext context) {
         try {
-            UtilisateurSso utilisateurSso = new UtilisateurSso(Structure.PASS_EMPLOI, Type.CONSEILLER);
+            Type type = Type.valueOf(context.getUser().getAttributes().get("type").get(0));
             String idUser = context.getUser().getAttributes().get("id_user").get(0);
+            UtilisateurSso utilisateurSso = new UtilisateurSso(Structure.PASS_EMPLOI, type);
             Utilisateur utilisateur = userRepository.createOrFetch(utilisateurSso, idUser);
             context.getUser().setAttribute("id_user", List.of(utilisateur.getId()));
             context.getUser().setAttribute("type", List.of(utilisateur.getType().toString()));

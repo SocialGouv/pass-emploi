@@ -5,14 +5,14 @@ resource "keycloak_user" "user_nils_tavernier" {
   first_name = "Nils"
   last_name  = "Tavernier"
   email      = ""
-  username   = "1"
+  username   = "41"
   attributes = {
-    id_user = "1",
+    id_user = "41",
     type = "CONSEILLER",
     structure = "PASS_EMPLOI"
   }
   initial_password {
-    value = "1"
+    value = "41"
   }
 }
 
@@ -22,13 +22,13 @@ resource "keycloak_user" "user_virginie_renoux" {
   first_name = "Virginie"
   last_name  = "Renoux"
   email      = ""
-  username   = "2"
+  username   = "42"
   attributes = {
-    id_user = "2",
+    id_user = "42",
     type = "CONSEILLER",
     structure = "PASS_EMPLOI"
   }
   initial_password {
-    value = "2"
+    value = "42"
   }
 }

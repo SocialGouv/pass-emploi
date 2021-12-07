@@ -42,7 +42,7 @@ make clean #supprime tous les volumes et images
 2. Déchiffrer le vault correspondant à l'environnement souhaité
 ```
 cd config/vault
-make run run-vault
+make run-vault
 make decrypt-staging
 ```
 3. Lancer le provisionning de l'environnement depuis la racine
