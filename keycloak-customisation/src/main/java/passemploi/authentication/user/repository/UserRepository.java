@@ -17,17 +17,20 @@ import java.net.URI;
 public class UserRepository {
     private final CloseableHttpClient httpClient;
     private final String apiBaseUrl;
+    private final String apiKey;
     private final Logger logger = Logger.getLogger(UserRepository.class);
 
-    public UserRepository(String apiBaseUrl) {
+    public UserRepository(String apiBaseUrl, String apiKey) {
         this.httpClient = HttpClientBuilder.create().build();
         this.apiBaseUrl = apiBaseUrl;
+        this.apiKey = apiKey;
     }
 
     public Utilisateur createOrFetch(UtilisateurSso utilisateurSso, String idUtilisateur) throws FetchUtilisateurException {
         try {
             URI uri = URI.create(String.format("%s/auth/users/%s", this.apiBaseUrl, idUtilisateur));
             HttpPut httpPut = new HttpPut(uri);
+            httpPut.setHeader("X-API-KEY" , this.apiKey);
             String body = JsonSerialization.writeValueAsString(utilisateurSso);
             StringEntity requestEntity = new StringEntity(body, ContentType.APPLICATION_JSON);
             httpPut.setEntity(requestEntity);

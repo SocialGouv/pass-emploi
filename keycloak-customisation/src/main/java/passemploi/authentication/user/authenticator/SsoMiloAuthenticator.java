@@ -25,7 +25,7 @@ public class SsoMiloAuthenticator implements Authenticator {
     public SsoMiloAuthenticator(Structure structure, Type type) {
         this.structure = structure;
         this.type = type;
-        userRepository = new UserRepository(System.getenv("API_BASE_URL"));
+        userRepository = new UserRepository(System.getenv("API_BASE_URL"), System.getenv("API_BASE_URL"));
     }
 
     @Override
