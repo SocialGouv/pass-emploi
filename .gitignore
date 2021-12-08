@@ -3,3 +3,4 @@
 *.secret
 .DS_Store
 .gradle
+.idea
