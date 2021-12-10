@@ -26,8 +26,16 @@ resource "keycloak_authentication_execution" "pass-emploi-browser-cookie-executi
   authenticator     = "auth-cookie"
 }
 
-resource "keycloak_authentication_subflow" "pass-emploi-browser-authentication-form" {
+resource "keycloak_authentication_execution" "pass-emploi-browser-idp-redirector-execution" {
   depends_on        = [keycloak_authentication_execution.pass-emploi-browser-cookie-execution]
+  realm_id          = keycloak_realm.pass-emploi.id
+  parent_flow_alias = keycloak_authentication_subflow.pass-emploi-browser-authentication.alias
+  requirement       = "ALTERNATIVE"
+  authenticator     = "identity-provider-redirector"
+}
+
+resource "keycloak_authentication_subflow" "pass-emploi-browser-authentication-form" {
+  depends_on        = [keycloak_authentication_execution.pass-emploi-browser-idp-redirector-execution]
   realm_id          = keycloak_realm.pass-emploi.id
   parent_flow_alias = keycloak_authentication_subflow.pass-emploi-browser-authentication.alias
   alias             = "pass-emploi-browser-authentication-form"
