@@ -42,6 +42,14 @@ variable "web_valid_redirect_uris" {
   description = "Valid redirect uris for web"
 }
 
+############### SWAGGER SECRETS ###############
+variable "swagger_valid_redirect_uris" {
+  type = list(string)
+  default = ["*"]
+  sensitive = true
+  description = "Valid redirect uris for web"
+}
+
 ############### IDP SECRETS ###############
 
 ############### CONSEILLERS MILO ###############
