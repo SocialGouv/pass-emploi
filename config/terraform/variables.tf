@@ -21,8 +21,8 @@ variable "app_client_secret" {
 variable "app_valid_redirect_uris" {
   type = list(string)
   default = [
-    "fr.fabrique.social.gouv.passemploi.staging://login-callback",
-    "fr.fabrique.social.gouv.passemploi.staging://logout-callback"]
+    "fr.fabrique.social.gouv.passemploi://login-callback",
+    "fr.fabrique.social.gouv.passemploi://logout-callback"]
   sensitive = true
   description = "Valid redirect uris for app"
 }
@@ -74,6 +74,12 @@ variable "idp_similo_conseiller_logout_url" {
   description = "logout_url"
 }
 
+variable "idp_similo_conseiller_enabled" {
+  type = bool
+  default = true
+  description = "similo_conseiller_enabled"
+}
+
 variable "idp_similo_conseiller_client_secret" {
   type = string
   default = "NO_SECRET"
@@ -103,6 +109,12 @@ variable "idp_similo_jeune_logout_url" {
   description = "logout_url"
 }
 
+variable "idp_similo_jeune_enabled" {
+  type = bool
+  default = true
+  description = "similo_jeune_enabled"
+}
+
 variable "idp_similo_jeune_client_secret" {
   type = string
   default = "NO_SECRET"
@@ -110,7 +122,7 @@ variable "idp_similo_jeune_client_secret" {
   description = "client_secret"
 }
 
-############### CONSEILLER MILO ###############
+############### CONSEILLER PE ###############
 variable "idp_pe_conseiller_authorization_url" {
   type = string
   default = "https://authentification-agent-va.pe-qvr.net/connexion/oauth2/authorize?realm=/agent"
@@ -130,6 +142,12 @@ variable "idp_pe_conseiller_logout_url" {
   default = "https://authentification-agent-va.pe-qvr.net/connexion/oauth2/connect/endSession?realm=/agent"
   sensitive = true
   description = "logout_url"
+}
+
+variable "idp_pe_conseiller_enabled" {
+  type = bool
+  default = true
+  description = "pe_conseiller_enabled"
 }
 
 variable "idp_pe_conseiller_client_id" {
