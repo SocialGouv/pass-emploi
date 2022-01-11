@@ -51,6 +51,11 @@ variable "swagger_valid_redirect_uris" {
 }
 
 ############### IDP SECRETS ###############
+variable "idps_hide_on_login_page" {
+  type = bool
+  default = true
+  description = "hide idps button on login page"
+}
 
 ############### CONSEILLERS MILO ###############
 variable "idp_similo_conseiller_authorization_url" {

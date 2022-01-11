@@ -3,9 +3,9 @@ resource "keycloak_realm" "pass-emploi" {
   display_name                            = "pass-emploi"
   enabled                                 = true
   login_theme                             = "theme-pass-emploi"
-  access_token_lifespan_for_implicit_flow = "5m"
-  sso_session_max_lifespan                = "10h"
-  sso_session_idle_timeout                = "30m"
+  access_token_lifespan_for_implicit_flow = "30m"
+  sso_session_max_lifespan                = "1008h"
+  sso_session_idle_timeout                = "504h"
   ssl_required                            = var.ssl_required
   #rules: hashAlgorithm specialChars passwordHistory upperCase lowerCase regexPattern digits notUsername forceExpiredPasswordChange hashIterations passwordBlacklist length
   # https://github.com/keycloak/keycloak-documentation/blob/master/server_admin/topics/authentication/password-policies.adoc
@@ -26,4 +26,11 @@ resource "keycloak_realm" "pass-emploi" {
       failure_reset_time_seconds       = 43200
     }
   }
+}
+
+resource "keycloak_realm_events" "realm_events" {
+  realm_id = keycloak_realm.pass-emploi.id
+  events_enabled    = true
+  admin_events_enabled         = true
+  admin_events_details_enabled = true
 }
