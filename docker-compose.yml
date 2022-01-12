@@ -29,6 +29,7 @@ services:
         user: root
 #        working_dir: /code/config/terraform
         command: [ 'make', 'apply-local' ]
+        env_file: ./config/vault/local.secret
         volumes:
 #            - source_code:/code:delegated
             - tfstate:/tfstate:delegated

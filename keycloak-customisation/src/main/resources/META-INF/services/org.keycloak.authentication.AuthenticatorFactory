@@ -19,3 +19,4 @@ passemploi.authentication.user.factory.ConseillerMiloAuthenticatorFactory
 passemploi.authentication.user.factory.JeuneMiloAuthenticatorFactory
 passemploi.authentication.user.factory.PassEmploiUserAuthenticatorFactory
 passemploi.authentication.user.factory.ConseillerPEAuthenticatorFactory
+passemploi.authentication.user.factory.JeunePEAuthenticatorFactory

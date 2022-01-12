@@ -5,11 +5,12 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UtilisateurSsoPe {
-    private String sub;
-    private String updated_at;
-    private String name;
+public class UtilisateurSsoPeJeune {
     private String given_name;
     private String family_name;
+    private String gender;
+    private String idIdentiteExterne;
     private String email;
+    private String sub;
+    private String updated_at;
 }

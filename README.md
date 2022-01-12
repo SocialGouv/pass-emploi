@@ -15,8 +15,9 @@ make decrypt-staging
 ```
 
 2. Générer le fichier `.env` à partir du `.env.template`
+3. Créer un fichier local.secret dans le dossier vault avec TF_VAR_idp_pe_jeune_client_secret
 
-3. Lancer le tout
+4. Lancer le tout
 
 ```
 make start #lance keycloak avec son postgres et applique la configuration terraform
