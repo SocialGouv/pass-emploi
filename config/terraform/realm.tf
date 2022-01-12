@@ -4,6 +4,7 @@ resource "keycloak_realm" "pass-emploi" {
   enabled                                 = true
   login_theme                             = "theme-pass-emploi"
   access_token_lifespan_for_implicit_flow = "30m"
+  access_token_lifespan                   = "30m"
   sso_session_max_lifespan                = "1008h"
   sso_session_idle_timeout                = "504h"
   ssl_required                            = var.ssl_required
