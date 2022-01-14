@@ -52,7 +52,7 @@ resource "keycloak_authentication_execution" "pass-emploi-browser-username-passw
 }
 
 resource "keycloak_authentication_execution" "pass-emploi-custom-execution" {
-  depends_on        = [keycloak_authentication_subflow.pass-emploi-browser-authentication-form]
+  depends_on        = [keycloak_authentication_subflow.pass-emploi-browser-authentication-form, keycloak_authentication_execution.pass-emploi-browser-username-password-execution]
   realm_id          = keycloak_realm.pass-emploi.id
   parent_flow_alias = keycloak_authentication_subflow.pass-emploi-browser-authentication-form.alias
   requirement       = "REQUIRED"
@@ -104,4 +104,18 @@ resource "keycloak_authentication_execution" "pass-emploi-idp-conseiller-pe-exec
   parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp-conseiller-pe.alias
   requirement       = "REQUIRED"
   authenticator     = "user-authenticator-conseiller-pe"
+}
+########### JEUNE PE ###########
+resource "keycloak_authentication_flow" "pass-emploi-idp-jeune-pe" {
+  realm_id    = keycloak_realm.pass-emploi.id
+  alias       = "pass-emploi-idp-jeune-pe"
+  provider_id = "basic-flow"
+}
+
+resource "keycloak_authentication_execution" "pass-emploi-idp-jeune-pe-execution" {
+  depends_on        = [keycloak_authentication_flow.pass-emploi-idp-jeune-pe]
+  realm_id          = keycloak_realm.pass-emploi.id
+  parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp-jeune-pe.alias
+  requirement       = "REQUIRED"
+  authenticator     = "user-authenticator-jeune-pe"
 }

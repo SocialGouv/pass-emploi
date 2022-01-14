@@ -20,13 +20,13 @@ import passemploi.authentication.user.repository.UserRepository;
 import java.io.IOException;
 import java.util.List;
 
-public class SsoPEConseillerAuthenticator implements Authenticator {
-    protected static final Logger logger = Logger.getLogger(SsoPEConseillerAuthenticator.class);
+public class SsoPEJeuneAuthenticator implements Authenticator {
+    protected static final Logger logger = Logger.getLogger(SsoPEJeuneAuthenticator.class);
     private final UserRepository userRepository;
     private final PoleEmploiRepository poleEmploiRepository;
     private final String socialProvider;
 
-    public SsoPEConseillerAuthenticator(String provider) {
+    public SsoPEJeuneAuthenticator(String provider) {
         userRepository = new UserRepository();
         poleEmploiRepository = new PoleEmploiRepository();
         socialProvider = provider;
@@ -37,13 +37,13 @@ public class SsoPEConseillerAuthenticator implements Authenticator {
         FederatedIdentityModel federatedIdentityModel = context.getSession().users().getFederatedIdentity(context.getRealm(), context.getUser(), socialProvider);
         try {
             AccessTokenResponse federatedToken = JsonSerialization.readValue(federatedIdentityModel.getToken(), AccessTokenResponse.class);
-            UtilisateurSsoPeConseiller utilisateurSsoPe = poleEmploiRepository.getConseiller(federatedToken.getToken());
+            UtilisateurSsoPeJeune utilisateurSsoPe = poleEmploiRepository.getJeune(federatedToken.getToken());
             UtilisateurSso utilisateurSso = new UtilisateurSso(
                     utilisateurSsoPe.getGiven_name(),
                     utilisateurSsoPe.getFamily_name(),
                     utilisateurSsoPe.getEmail(),
                     Structure.POLE_EMPLOI,
-                    Type.CONSEILLER
+                    Type.JEUNE
             );
             Utilisateur utilisateur = userRepository.createOrFetch(utilisateurSso, utilisateurSsoPe.getSub());
             context.getUser().setAttribute("id_user", List.of(utilisateur.getId()));

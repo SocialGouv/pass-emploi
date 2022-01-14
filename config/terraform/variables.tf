@@ -168,3 +168,44 @@ variable "idp_pe_conseiller_client_secret" {
   sensitive = true
   description = "client_secret"
 }
+
+############### JEUNE PE ###############
+variable "idp_pe_jeune_authorization_url" {
+  type = string
+  default = "https://authentification-candidat.pole-emploi.fr/connexion/oauth2/authorize?realm=/individu"
+  sensitive = true
+  description = "authorization_url"
+}
+
+variable "idp_pe_jeune_token_url" {
+  type = string
+  default = "https://authentification-candidat.pole-emploi.fr/connexion/oauth2/access_token?realm=/individu"
+  sensitive = true
+  description = "token_url"
+}
+
+variable "idp_pe_jeune_logout_url" {
+  type = string
+  default = "https://authentification-candidat.pole-emploi.fr/connexion/oauth2/connect/endSession?realm=/individu"
+  sensitive = true
+  description = "logout_url"
+}
+
+variable "idp_pe_jeune_enabled" {
+  type = bool
+  default = true
+  description = "pe_jeune_enabled"
+}
+
+variable "idp_pe_jeune_client_id" {
+  type = string
+  default = "PAR_passemploi_15c6aadba8669e07a2c4384bc8e01942601a7072ae48452e6155c02a0207b014"
+  sensitive = true
+  description = "client_id"
+}
+
+variable "idp_pe_jeune_client_secret" {
+  type = string
+  sensitive = true
+  description = "client_secret"
+}

@@ -90,3 +90,27 @@ resource "keycloak_oidc_identity_provider" "idp_pe_conseiller" {
     "clientAuthMethod" = "client_secret_post"
   }
 }
+
+
+########### JEUNE PE ###########
+resource "keycloak_oidc_identity_provider" "idp_pe_jeune" {
+  realm                         = keycloak_realm.pass-emploi.id
+  alias                         = "pe-jeune"
+  display_name                  = "PE - Jeunes"
+  authorization_url             = var.idp_pe_jeune_authorization_url
+  client_id                     = var.idp_pe_jeune_client_id
+  client_secret                 = var.idp_pe_jeune_client_secret
+  token_url                     = var.idp_pe_jeune_token_url
+  store_token                   = true
+  add_read_token_role_on_create = true
+  logout_url                     = var.idp_pe_jeune_logout_url
+  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-jeune-pe.alias
+  sync_mode                     = "FORCE"
+  default_scopes                = "application_PAR_passemploi_15c6aadba8669e07a2c4384bc8e01942601a7072ae48452e6155c02a0207b014 api_peconnect-individuv1 openid profile email coordonnees api_peconnect-coordonneesv1 individu api_peconnect-conseillersv1 api_peconnect-datenaissancev1 datenaissance api_peconnect-rendezvousagendav1 prdvl api_peconnect-gerer-prestationsv1 prestationDE"
+  hide_on_login_page            = var.idps_hide_on_login_page
+  enabled                       = var.idp_pe_jeune_enabled
+
+  extra_config = {
+    "clientAuthMethod" = "client_secret_post"
+  }
+}
