@@ -24,7 +24,23 @@ make start #lance keycloak avec son postgres et applique la configuration terraf
 make clean #supprime tous les volumes et images
 ```
 
+#### Utiliser le SSO PE Jeune
+Les redirect URL du SSO PE Jeune ne permettent pas de travailler en local.
+Afin de quand même l'utiliser on peut utiliser l'astuce suivante :
 
+1. Éditer le fichier /etc/host en ajoutant la ligne suivante :
+```bash
+127.0.0.1	id.pass-emploi.incubateur.net
+```
+
+2. Dans le web et l'api mettre les variables suivantes
+```bash
+#API
+OIDC_ISSUER_URL=http://id.pass-emploi.incubateur.net:8082/auth/realms/pass-emploi
+
+#WEB
+KEYCLOAK_ISSUER=http://id.pass-emploi.incubateur.net:8082/auth/realms/pass-emploi
+```
 
 ### Déploiement sur Scalingo
 
