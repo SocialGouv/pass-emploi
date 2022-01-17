@@ -60,6 +60,7 @@ public class SsoPEJeuneAuthenticator implements Authenticator {
         } catch (FetchUtilisateurException e) {
             logger.error(e.getMessage());
             context.failure(AuthenticationFlowError.INTERNAL_ERROR);
+            throw new IdentityBrokerException(e.getMessage());
         }
     }
 

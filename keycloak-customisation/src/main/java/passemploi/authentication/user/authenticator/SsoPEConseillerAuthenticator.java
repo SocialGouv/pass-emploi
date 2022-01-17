@@ -59,7 +59,8 @@ public class SsoPEConseillerAuthenticator implements Authenticator {
             throw new IdentityBrokerException(e.getMessage());
         } catch (FetchUtilisateurException e) {
             logger.error(e.getMessage());
-            context.failure(AuthenticationFlowError.INTERNAL_ERROR);
+            context.failure(AuthenticationFlowError.ACCESS_DENIED);
+            throw new IdentityBrokerException(e.getMessage());
         }
     }
 
