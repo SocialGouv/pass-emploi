@@ -82,7 +82,7 @@ resource "keycloak_oidc_identity_provider" "idp_pe_conseiller" {
   logout_url                    = var.idp_pe_conseiller_logout_url
   post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-conseiller-pe.alias
   sync_mode                     = "FORCE"
-  default_scopes                = "openid application_AGT_AAA-TEST-APPLI email profile"
+  default_scopes                = var.idp_pe_conseiller_scopes
   hide_on_login_page            = var.idps_hide_on_login_page
   enabled                       = var.idp_pe_conseiller_enabled
 
@@ -106,7 +106,7 @@ resource "keycloak_oidc_identity_provider" "idp_pe_jeune" {
   logout_url                     = var.idp_pe_jeune_logout_url
   post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-jeune-pe.alias
   sync_mode                     = "FORCE"
-  default_scopes                = "application_PAR_passemploi_15c6aadba8669e07a2c4384bc8e01942601a7072ae48452e6155c02a0207b014 api_peconnect-individuv1 openid profile email coordonnees api_peconnect-coordonneesv1 individu api_peconnect-conseillersv1 api_peconnect-datenaissancev1 datenaissance api_peconnect-rendezvousagendav1 prdvl api_peconnect-gerer-prestationsv1 prestationDE"
+  default_scopes                = var.idp_pe_jeune_scopes
   hide_on_login_page            = var.idps_hide_on_login_page
   enabled                       = var.idp_pe_jeune_enabled
 

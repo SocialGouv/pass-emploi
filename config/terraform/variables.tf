@@ -169,6 +169,12 @@ variable "idp_pe_conseiller_client_secret" {
   description = "client_secret"
 }
 
+variable "idp_pe_conseiller_scopes" {
+  type = string
+  default = "openid application_AGT_AAA-TEST-APPLI email profile"
+  description = "pe_conseiller_scopes"
+}
+
 ############### JEUNE PE ###############
 variable "idp_pe_jeune_authorization_url" {
   type = string
@@ -208,4 +214,11 @@ variable "idp_pe_jeune_client_secret" {
   type = string
   sensitive = true
   description = "client_secret"
+}
+
+variable "idp_pe_jeune_scopes" {
+  type = string
+  default = "application_PAR_passemploi_15c6aadba8669e07a2c4384bc8e01942601a7072ae48452e6155c02a0207b014 api_peconnect-individuv1 openid profile email coordonnees api_peconnect-coordonneesv1 individu api_peconnect-conseillersv1 api_peconnect-datenaissancev1 datenaissance api_peconnect-rendezvousagendav1 prdvl api_peconnect-gerer-prestationsv1 prestationDE"
+  sensitive = true
+  description = "pe_conseiller_scopes"
 }
