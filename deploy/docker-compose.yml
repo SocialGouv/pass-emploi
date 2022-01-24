@@ -7,8 +7,16 @@ services:
         user: root
         command: [ 'make', 'apply' ]
         env_file: ../config/vault/staging.secret
+        ## Pour linux
+        #network_mode: host
+        #extra_hosts:
+        #        - "host.docker.internal:127.0.0.1"
     provision-scalingo-prod:
         build: ../config/terraform
         user: root
         command: [ 'make', 'apply' ]
         env_file: ../config/vault/prod.secret
+        ## Pour linux
+        #network_mode: host
+        #extra_hosts:
+        #    - "host.docker.internal:127.0.0.1"
