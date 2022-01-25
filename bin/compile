@@ -25,7 +25,7 @@ STACK="${STACK:-scalingo-18}"
 
 start "Install Keycloak"
 
-install_jre
+install_jdk
 
 if [[ -f "$ENV_DIR/KEYCLOAK_VERSION" ]]; then
   KEYCLOAK_VERSION=$(cat "$ENV_DIR/KEYCLOAK_VERSION")

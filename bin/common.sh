@@ -56,17 +56,17 @@ function install_jq() {
   finished
 }
 
-function install_jre() {
+function install_jdk() {
   install_jq
-  if [[ -f "${ENV_DIR}/JRE_MAJOR_VERSION" ]]; then
-    JRE_MAJOR_VERSION=$(cat "${ENV_DIR}/JRE_MAJOR_VERSION")
+  if [[ -f "${ENV_DIR}/JDK_MAJOR_VERSION" ]]; then
+    JDK_MAJOR_VERSION=$(cat "${ENV_DIR}/JDK_MAJOR_VERSION")
   else
-    JRE_MAJOR_VERSION=11
+    JDK_MAJOR_VERSION=11
   fi
-  step "Install AdoptOpenJDK $JRE_MAJOR_VERSION JRE"
-  local jre_query_url="https://api.adoptopenjdk.net/v3/assets/feature_releases/${JRE_MAJOR_VERSION}/ga"
+  step "Install AdoptOpenJDK JDK_MAJOR_VERSION JDK"
+  local jdk_query_url="https://api.adoptopenjdk.net/v3/assets/feature_releases/${JDK_MAJOR_VERSION}/ga"
   local http_code
-  http_code=$($CURL -G -o "$TMP_PATH/jre.json" -w '%{http_code}' -H "accept: application/json" "${jre_query_url}" \
+  http_code=$($CURL -G -o "$TMP_PATH/jdk.json" -w '%{http_code}' -H "accept: application/json" "${jdk_query_url}" \
    --data-urlencode "architecture=x64" \
    --data-urlencode "heap_size=normal" \
    --data-urlencode "image_type=jdk" \
@@ -80,49 +80,49 @@ function install_jre() {
    --data-urlencode "vendor=adoptopenjdk")
   
   if [[ $http_code == 200 ]]; then
-    local jre_dist
-    jre_dist=$(cat "$TMP_PATH/jre.json" | jq '.[] | .binaries | .[] | .package.name' )
-    jre_dist="${jre_dist%\"}"
-    jre_dist="${jre_dist#\"}"
-    local checksum_url
-    checksum_url=$(cat "$TMP_PATH/jre.json" | jq '.[] | .binaries | .[] | .package.checksum_link' | xargs)
-    local jre_release_name
-    jre_release_name=$(cat "$TMP_PATH/jre.json" | jq '.[] | .release_name')
-    jre_release_name="${jre_release_name%\"}"
-    jre_release_name="${jre_release_name#\"}"
-    local jre_url
-    jre_url=$(cat "$TMP_PATH/jre.json" | jq '.[] | .binaries | .[] | .package.link' | xargs)
-    info $jre_url
+    local jdk_dist
+    jdk_dist=$(cat "$TMP_PATH/jdk.json" | jq '.[] | .binaries | .[] | .package.name' )
+    jdk_dist="${jdk_dist%\"}"
+    jdk_dist="${jdk_dist#\"}"
+    local checksum
+    checksum=$(cat "$TMP_PATH/jdk.json" | jq '.[] | .binaries | .[] | .package.checksum' | xargs)
+    local jdk_release_name
+    jdk_release_name=$(cat "$TMP_PATH/jdk.json" | jq '.[] | .release_name')
+    jdk_release_name="${jdk_release_name%\"}"
+    jdk_release_name="${jdk_release_name#\"}"
+    local jdk_url
+    jdk_url=$(cat "$TMP_PATH/jdk.json" | jq '.[] | .binaries | .[] | .package.link' | xargs)
+    info $jdk_url
   else
     warn "AdoptOpenJDK API v3 HTTP STATUS CODE: $http_code"
-    local jre_release_name="jdk-11.0.11+9"
-    info "Using by default $jre_release_name"
-    local jre_dist="OpenJDK11U-jre_x64_linux_hotspot_11.0.11_9.tar.gz"
-    local jre_url="https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.11%2B9/${jre_dist}"
-    local checksum_url="${jre_url}.sha256.txt"
+    local jdk_release_name="jdk-11.0.11+9"
+    info "Using by default $jdk_release_name"
+    local jdk_dist="OpenJDK11U-jdk_x64_linux_hotspot_11.0.14_9.tar.gz"
+    local jdk_url="https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.11%2B9/${jdk_dist}"
+    local checksum="${jdk_url}.sha256.txt"
   fi
-  info "Fetching $jre_dist"
-  local dist_filename="${CACHE_DIR}/dist/$jre_dist"
+  info "Fetching $jdk_dist"
+  local dist_filename="${CACHE_DIR}/dist/$jdk_dist"
   if [ -f "${dist_filename}" ]; then
     info "File already downloaded"
   else
-    ${CURL} -o "${dist_filename}" "${jre_url}"
+    ${CURL} -o "${dist_filename}" "${jdk_url}"
   fi
   if [ -f "${dist_filename}.sha256" ]; then
-    info "JRE sha256 sum already checked"
+    info "JDK sha256 sum already checked"
   else
-    ${CURL} -o "${dist_filename}.sha256" "${checksum_url}"
+    echo "${checksum} ${jdk_dist}" > "${dist_filename}.sha256"
     cd "${CACHE_DIR}/dist" || return
     sha256sum -c --strict --status "${dist_filename}.sha256"
-    info "JRE sha256 checksum valid"
+    info "JDK sha256 checksum valid"
   fi
   if [ -d "${BUILD_DIR}/java" ]; then
-    warn "JRE already installed"
+    warn "JDK already installed"
   else
     tar xzf "${dist_filename}" -C "${CACHE_DIR}/dist"
     info `ls "${CACHE_DIR}/dist"`
-    mv "${CACHE_DIR}/dist/$jre_release_name" "$BUILD_DIR/java"
-    info "JRE archive unzipped to $BUILD_DIR/java"
+    mv "${CACHE_DIR}/dist/$jdk_release_name" "$BUILD_DIR/java"
+    info "JDK archive unzipped to $BUILD_DIR/java"
   fi
   export PATH=$PATH:"${BUILD_DIR}/java/bin"
   if [ ! -d "${BUILD_DIR}/.profile.d" ]; then
