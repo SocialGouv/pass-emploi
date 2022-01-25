@@ -52,5 +52,9 @@ provision-prod:
 	docker-compose -f deploy/docker-compose.yml build --no-cache provision-scalingo-prod
 	docker-compose -f deploy/docker-compose.yml run --rm provision-scalingo-prod
 
+provision-audit:
+	docker-compose -f deploy/docker-compose.yml build --no-cache provision-scalingo-audit
+	docker-compose -f deploy/docker-compose.yml run --rm provision-scalingo-audit
+
 logs:
 	docker-compose logs -f keycloak

@@ -20,3 +20,13 @@ services:
         #network_mode: host
         #extra_hosts:
         #    - "host.docker.internal:127.0.0.1"
+
+    provision-scalingo-audit:
+            build: ../config/terraform
+            user: root
+            command: [ 'make', 'apply' ]
+            env_file: ../config/vault/audit.secret
+            ## Pour linux
+            #network_mode: host
+            #extra_hosts:
+            #    - "host.docker.internal:127.0.0.1"

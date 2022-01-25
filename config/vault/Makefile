@@ -32,5 +32,11 @@ decrypt-prod-f:
 edit-prod-f:
 	ansible-vault edit --vault-password-file vault-prod.secret prod.env
 
+decrypt-audit-f:
+	ansible-vault view --vault-password-file vault-audit.secret audit.env > audit.secret
+
+edit-audit-f:
+	ansible-vault edit --vault-password-file vault-audit.secret audit.env
+
 ## create vault
 ## ansible-vault create myFile
