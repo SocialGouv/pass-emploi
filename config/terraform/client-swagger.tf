@@ -20,6 +20,7 @@ resource "keycloak_openid_client_default_scopes" "pass-emploi-swagger-default-sc
 
   default_scopes = [
     keycloak_openid_client_scope.pass_emploi_user_scope.name,
+    "roles",
     "profile",
     "email",
     "openid"
