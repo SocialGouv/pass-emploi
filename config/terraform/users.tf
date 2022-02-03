@@ -1,4 +1,3 @@
-
 resource "keycloak_user" "user_nils_tavernier" {
   realm_id   = keycloak_realm.pass-emploi.id
   enabled    = true
