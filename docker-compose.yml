@@ -41,6 +41,7 @@ services:
             KEYCLOAK_CLIENT_ID: terraform
             KEYCLOAK_CLIENT_SECRET: 111ed886-126a-11e9-ab12-23b741c9418a
             TF_VAR_restrict_valid_redirect_uris: "false"
+            JAVA_OPTS_APPEND: "-Dkeycloak.profile.feature.admin_fine_grained_authz=enabled"
     keycloak-fwd:
         image: marcnuri/port-forward
         environment:
