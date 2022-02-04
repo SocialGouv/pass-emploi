@@ -31,10 +31,6 @@ start-keycloak:
 forward-local-keycloak:
 	docker-compose up -d keycloak-fwd
 
-forward-local: forward-local-keycloak
-	docker-compose up -d api-stub-fwd
-	docker-compose up -d auth-test-app-fwd
-
 start: start-keycloak-local ## Start the application
 	echo AUTH SERVER STARTED
 
