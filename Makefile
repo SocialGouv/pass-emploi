@@ -18,6 +18,10 @@ provision: start-keycloak
 	docker-compose build --no-cache provision
 	docker-compose run --rm provision
 
+provision-local:
+	docker-compose build --no-cache provision
+	docker-compose run --rm provision
+
 build-keycloak:
 	docker-compose build keycloak
 build-keycloak-nc:
