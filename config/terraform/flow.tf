@@ -119,3 +119,19 @@ resource "keycloak_authentication_execution" "pass-emploi-idp-jeune-pe-execution
   requirement       = "REQUIRED"
   authenticator     = "user-authenticator-jeune-pe"
 }
+
+########### FIRST BROKER LOGIN ###########
+data "keycloak_authentication_execution" "first_broker_login_review_profile_execution" {
+  realm_id          = keycloak_realm.pass-emploi.id
+  parent_flow_alias = "first broker login"
+  provider_id       = "idp-review-profile"
+}
+
+resource "keycloak_authentication_execution_config" "first_broker_login_review_profile_config" {
+  realm_id     = keycloak_realm.pass-emploi.id
+  execution_id = data.keycloak_authentication_execution.first_broker_login_review_profile_execution.id
+  alias        = "review profile config"
+  config = {
+    "update.profile.on.first.login" = "off"
+  }
+}

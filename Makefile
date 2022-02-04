@@ -18,6 +18,10 @@ provision: start-keycloak
 	docker-compose build --no-cache provision
 	docker-compose run --rm provision
 
+provision-local:
+	docker-compose build --no-cache provision
+	docker-compose run --rm provision
+
 build-keycloak:
 	docker-compose build keycloak
 build-keycloak-nc:
@@ -30,10 +34,6 @@ start-keycloak:
 
 forward-local-keycloak:
 	docker-compose up -d keycloak-fwd
-
-forward-local: forward-local-keycloak
-	docker-compose up -d api-stub-fwd
-	docker-compose up -d auth-test-app-fwd
 
 start: start-keycloak-local ## Start the application
 	echo AUTH SERVER STARTED

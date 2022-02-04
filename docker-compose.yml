@@ -21,6 +21,20 @@ services:
             - postgres
         extra_hosts:
             - "host.docker.internal:host-gateway"
+    
+    ## docker-compose up --build --force-recreate -d keycloak
+#    keycloak:
+#        build:
+#            context: .
+#            dockerfile: ./turbo-kc/Dockerfile-turbo
+#        # DEV THEME KC: décommenter les 2 lignes ci-dessous
+#        volumes:
+#          - ./theme-pass-emploi:/opt/jboss/keycloak/themes/theme-pass-emploi
+#        env_file: .env
+#        depends_on:
+#            - postgres
+#        extra_hosts:
+#            - "host.docker.internal:host-gateway"
     wait-on-keycloak:
         image: kosprov/wait-on:3.2.0
         command: [ 'http://keycloak:8080' ]
