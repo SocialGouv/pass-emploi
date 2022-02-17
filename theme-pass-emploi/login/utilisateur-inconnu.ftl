@@ -1,7 +1,7 @@
 <#import "template.ftl" as layout>
 <@layout.registrationLayout displayMessage=false; section>
     <#if section = "header">
-        La connexion à pass emploi a échoué.
+        ${msg("passHeaderUtilisateurInconnu")}
     <#elseif section = "form">
         <div id="kc-error-message">
             <p class="instruction">${msg(passMessage)}</p>
