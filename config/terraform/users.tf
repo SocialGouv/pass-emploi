@@ -57,3 +57,19 @@ resource "keycloak_user" "user_kenji_lefameux" {
     value = "1"
   }
 }
+
+resource "keycloak_user" "user_deployeur" {
+  realm_id   = keycloak_realm.pass-emploi.id
+  enabled    = true
+  first_name = "Le"
+  last_name  = "Deployeur"
+  email      = ""
+  username   = "deployeur"
+  attributes = {
+    type = "SUPPORT",
+    structure = "PASS_EMPLOI"
+  }
+  initial_password {
+    value = "deployeur"
+  }
+}
