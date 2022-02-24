@@ -30,3 +30,13 @@ resource "keycloak_openid_user_attribute_protocol_mapper" "user_attribute_mapper
   user_attribute = "structure"
   claim_name     = "userStructure"
 }
+
+resource "keycloak_openid_user_attribute_protocol_mapper" "user_attribute_mapper_roles" {
+  realm_id  = keycloak_realm.pass-emploi.id
+  client_scope_id = keycloak_openid_client_scope.pass_emploi_user_scope.id
+  name      = "user-attribute-mapper-roles"
+  multivalued = true
+
+  user_attribute = "roles"
+  claim_name     = "userRoles"
+}

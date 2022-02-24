@@ -41,6 +41,7 @@ public class PassEmploiAuthenticator implements Authenticator {
       context.getUser().setAttribute("id_user", List.of(utilisateur.getId()));
       context.getUser().setAttribute("type", List.of(utilisateur.getType().toString()));
       context.getUser().setAttribute("structure", List.of(utilisateur.getStructure().toString()));
+      context.getUser().setAttribute("roles", utilisateur.getRoles());
       context.getUser().setEmail(utilisateur.getEmail());
       context.getUser().setFirstName(utilisateur.getPrenom());
       context.getUser().setLastName(utilisateur.getNom());
