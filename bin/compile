@@ -91,6 +91,10 @@ rm -rf "${KEYCLOAK_PATH}/standalone/tmp/auth"
 rm -rf "${KEYCLOAK_PATH}/domain/tmp/auth"
 finished
 
+start "Add custom scripts"
+install_custom_scripts | indent
+finished
+
 start "Add keycloak admin user"
 if [[ -f "${ENV_DIR}/KEYCLOAK_ADMIN_USERNAME" && -f "${ENV_DIR}/KEYCLOAK_ADMIN_PASSWORD" ]]; then
   KEYCLOAK_ADMIN_USERNAME=$(cat "$ENV_DIR/KEYCLOAK_ADMIN_USERNAME")

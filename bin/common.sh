@@ -259,3 +259,16 @@ function install_prebuild_keycloak_customisation(){
   local dest="$1"
   cp "${BP_DIR}/keycloak-customisation/build/libs/pass-emploi-keycloak-customisation-0.0.1-SNAPSHOT.jar" "${dest}/standalone/deployments/pass-emploi-keycloak-customisation.jar"
 }
+
+function install_custom_scripts() {
+  mv "${BP_DIR}/bin/custom-startup-scripts" "${KEYCLOAK_PATH}/custom-startup-scripts"
+  mv "${BP_DIR}/bin/startup-scripts" "${KEYCLOAK_PATH}/startup-scripts"
+  
+  find "${KEYCLOAK_PATH}" -type f -name '*.cli' -exec sed -i "s|\/opt\/jboss|${KEYCLOAK_PATH}|g" {} \;
+  find "${KEYCLOAK_PATH}" -type f -name '*.cli' -exec sed -i "s|\/app|${KEYCLOAK_PATH}|g" {} \;
+  
+  "${KEYCLOAK_PATH}/bin/jboss-cli.sh" --file="${KEYCLOAK_PATH}/startup-scripts/standalone-configuration.cli"
+  rm -rf "${KEYCLOAK_PATH}/standalone/configuration/standalone_xml_history"
+  "${KEYCLOAK_PATH}/bin/jboss-cli.sh" --file="${KEYCLOAK_PATH}/startup-scripts/standalone-ha-configuration.cli"
+  rm -rf "${KEYCLOAK_PATH}/standalone/configuration/standalone_xml_history"
+}
