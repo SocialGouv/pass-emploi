@@ -12,8 +12,8 @@ FROM jboss/keycloak:16.1.0 AS run
 COPY --from=build keycloak-customisation/build/libs/pass-emploi-keycloak-customisation-0.0.1-SNAPSHOT.jar /opt/jboss/keycloak/standalone/deployments/pass-emploi-keycloak-customisation.jar
 #COPY docker/keycloak-metrics-spi-2.1.0.jar /opt/jboss/keycloak/standalone/deployments/keycloak-metrics-spi.jar
 #COPY docker/elastic-apm-agent-1.24.0.jar /usr/bin/elastic-apm-agent.jar
-#COPY docker/custom-startup-scripts /opt/jboss/custom-startup-scripts
-#COPY docker/startup-scripts /opt/jboss/startup-scripts
+COPY bin/custom-startup-scripts /opt/jboss/custom-startup-scripts
+COPY bin/startup-scripts /opt/jboss/startup-scripts
 COPY turbo-kc/standalone.xml /opt/jboss/keycloak/standalone/configuration
 COPY turbo-kc/docker-entrypoint.sh /usr/bin/
 #

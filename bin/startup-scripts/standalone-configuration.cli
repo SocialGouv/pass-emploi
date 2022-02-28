@@ -1,0 +1,4 @@
+embed-server --server-config=standalone.xml --std-out=echo
+run-batch --file= /opt/jboss/custom-startup-scripts/log.cli
+run-batch --file= /opt/jboss/custom-startup-scripts/datasource-pool.cli
+stop-embedded-server
