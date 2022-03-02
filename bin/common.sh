@@ -272,3 +272,9 @@ function install_custom_scripts() {
   "${KEYCLOAK_PATH}/bin/jboss-cli.sh" --file="${KEYCLOAK_PATH}/startup-scripts/standalone-ha-configuration.cli"
   rm -rf "${KEYCLOAK_PATH}/standalone/configuration/standalone_xml_history"
 }
+
+function install_elastic_apm_agent() {
+  local dest="$1"
+
+  mv "${BP_DIR}/bin/elastic-apm-agent-1.29.0.jar" "${dest}/elastic-apm-agent.jar"
+}
