@@ -18,10 +18,13 @@ resource "keycloak_realm" "pass-emploi" {
   }
   security_defenses {
     brute_force_detection {
-      permanent_lockout                = true
-      max_login_failures               = 5
-      quick_login_check_milli_seconds  = 1000
-      minimum_quick_login_wait_seconds = 60
+      permanent_lockout                 = false
+      max_login_failures                = 5
+      wait_increment_seconds            = 60*10
+      quick_login_check_milli_seconds   = 1000
+      minimum_quick_login_wait_seconds  = 60
+      max_failure_wait_seconds          = 60*60*24
+      failure_reset_time_seconds        = 60*60*24*7
     }
   }
 }
