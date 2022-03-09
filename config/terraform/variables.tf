@@ -178,21 +178,21 @@ variable "idp_pe_conseiller_scopes" {
 ############### JEUNE PE ###############
 variable "idp_pe_jeune_authorization_url" {
   type = string
-  default = "https://authentification-candidat.pole-emploi.fr/connexion/oauth2/authorize?realm=/individu"
+  default = "https://authentification-candidat-r.pe-qvr.fr/connexion/oauth2/authorize?realm=%2Findividu"
   sensitive = true
   description = "authorization_url"
 }
 
 variable "idp_pe_jeune_token_url" {
   type = string
-  default = "https://authentification-candidat.pole-emploi.fr/connexion/oauth2/access_token?realm=/individu"
+  default = "https://authentification-candidat-r.pe-qvr.fr/connexion/oauth2/access_token?realm=%2Findividu"
   sensitive = true
   description = "token_url"
 }
 
 variable "idp_pe_jeune_logout_url" {
   type = string
-  default = "https://authentification-candidat.pole-emploi.fr/connexion/oauth2/connect/endSession?realm=/individu"
+  default = "https://authentification-candidat-r.pe-qvr.fr/connexion/oauth2/connect/endSession?realm=/individu"
   sensitive = true
   description = "logout_url"
 }
@@ -205,7 +205,7 @@ variable "idp_pe_jeune_enabled" {
 
 variable "idp_pe_jeune_client_id" {
   type = string
-  default = "PAR_passemploi_15c6aadba8669e07a2c4384bc8e01942601a7072ae48452e6155c02a0207b014"
+  default = "PAR_passemploi_cf687713565051ad07767ad310617f054e3704edddeb5f48cc7f7417f0ab47ce"
   sensitive = true
   description = "client_id"
 }
@@ -218,7 +218,7 @@ variable "idp_pe_jeune_client_secret" {
 
 variable "idp_pe_jeune_scopes" {
   type = string
-  default = "application_PAR_passemploi_15c6aadba8669e07a2c4384bc8e01942601a7072ae48452e6155c02a0207b014 api_peconnect-individuv1 openid profile email coordonnees api_peconnect-coordonneesv1 individu api_peconnect-conseillersv1 api_peconnect-datenaissancev1 datenaissance api_peconnect-rendezvousagendav1 prdvl api_peconnect-gerer-prestationsv1 prestationDE"
+  default = "application_PAR_passemploi_cf687713565051ad07767ad310617f054e3704edddeb5f48cc7f7417f0ab47ce api_peconnect-individuv1 openid profile email api_peconnect-coordonneesv1 individu api_peconnect-conseillersv1 api_peconnect-demarchesv1 demarches demarchesW api_peconnect-rendezvousagendav1 prdvl api_peconnect-gerer-prestationsv1 prestationDE"
   sensitive = true
-  description = "pe_conseiller_scopes"
+  description = "pe_jeune_scopes"
 }

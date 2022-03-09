@@ -6,12 +6,14 @@ Keycloak est configuré via un provider terraform
 
 ### Poste local
 
-1. Déchiffrer le vault (demander le password à qui de droit)
+1. Récupérer les password des vault de stagin et de prod dans Dashlane
+2. Mettre le password dans `config/vault/vault-<env>.secret`
+3. Déchiffrer le vault
 
 ```
 cd config/vault
 make run-vault
-make decrypt-staging
+make decrypt-staging-f
 ```
 
 2. Générer le fichier `.env` à partir du `.env.template`
@@ -28,7 +30,7 @@ make clean #supprime tous les volumes et images
 Les redirect URL du SSO PE Jeune ne permettent pas de travailler en local.
 Afin de quand même l'utiliser on peut utiliser l'astuce suivante :
 
-1. Éditer le fichier /etc/host en ajoutant la ligne suivante :
+1. Éditer le fichier /etc/hosts en ajoutant la ligne suivante :
 ```bash
 127.0.0.1	id.pass-emploi.incubateur.net
 ```
