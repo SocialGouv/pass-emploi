@@ -22,7 +22,8 @@ resource "keycloak_openid_client_default_scopes" "pass-emploi-app-default-scopes
     keycloak_openid_client_scope.pass_emploi_user_scope.name,
     "profile",
     "email",
-    "openid"
+    "openid",
+    "roles"
   ]
 }
 
