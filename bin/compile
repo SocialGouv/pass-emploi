@@ -30,7 +30,7 @@ install_jdk
 if [[ -f "$ENV_DIR/KEYCLOAK_VERSION" ]]; then
   KEYCLOAK_VERSION=$(cat "$ENV_DIR/KEYCLOAK_VERSION")
 else
-  KEYCLOAK_VERSION="15.0.2"
+  KEYCLOAK_VERSION="16.1.0"
 fi
 
 if [ ! -d "${KEYCLOAK_PATH}" ]; then
@@ -97,6 +97,10 @@ finished
 
 start "Install APM Agent"
 install_elastic_apm_agent "${KEYCLOAK_PATH}" | indent
+finished
+
+start "Patch model infinispan"
+patch_model_infinispan
 finished
 
 start "Add keycloak admin user"

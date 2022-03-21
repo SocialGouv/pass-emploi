@@ -278,3 +278,7 @@ function install_elastic_apm_agent() {
 
   mv "${BP_DIR}/bin/elastic-apm-agent-1.29.0.jar" "${dest}/elastic-apm-agent.jar"
 }
+
+function patch_model_infinispan() {
+  mv "${BP_DIR}/bin/keycloak-model-infinispan-16.1.x-patch.jar" "${KEYCLOAK_PATH}/modules/system/layers/keycloak/org/keycloak/keycloak-model-infinispan/main/keycloak-model-infinispan-16.1.0.jar"
+}
