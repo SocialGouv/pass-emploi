@@ -50,6 +50,14 @@ variable "swagger_valid_redirect_uris" {
   description = "Valid redirect uris for web"
 }
 
+############### API SECRETS ###############
+variable "api_client_secret" {
+  type = string
+  default = "6822c1da-c03e-4e40-8bcb-53c025d9c7d5"
+  sensitive = true
+  description = "Client secret for api"
+}
+
 ############### IDP SECRETS ###############
 variable "idps_hide_on_login_page" {
   type = bool

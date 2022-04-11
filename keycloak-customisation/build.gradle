@@ -4,7 +4,7 @@ buildscript {
     assertJVersion = '3.14.0'
     jBossLogginVersion = '3.4.1.Final'
     junitVersion = '5.5.2'
-    keycloackVersion = '15.0.2'
+    keycloackVersion = '16.1.0'
     lombokVersion = '1.18.20'
     mockitoVersion = '3.2.4'
   }
