@@ -1,14 +1,17 @@
 package passemploi.authentication.user.authenticator;
 
 import org.jboss.logging.Logger;
+import org.keycloak.TokenVerifier;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
+import org.keycloak.common.VerificationException;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.AccessTokenResponse;
+import org.keycloak.representations.IDToken;
 import org.keycloak.util.JsonSerialization;
 import passemploi.authentication.user.model.*;
 import passemploi.authentication.user.repository.FetchPEUtilisateurException;
@@ -36,15 +39,16 @@ public class SsoPEJeuneAuthenticator implements Authenticator {
     FederatedIdentityModel federatedIdentityModel = context.getSession().users().getFederatedIdentity(context.getRealm(), context.getUser(), socialProvider);
     try {
       AccessTokenResponse federatedToken = JsonSerialization.readValue(federatedIdentityModel.getToken(), AccessTokenResponse.class);
+      IDToken idToken = TokenVerifier.create(federatedToken.getIdToken(), IDToken.class).getToken();
       UtilisateurSsoPeJeune utilisateurSsoPe = poleEmploiRepository.getJeune(federatedToken.getToken());
       UtilisateurSso utilisateurSso = new UtilisateurSso(
-          utilisateurSsoPe.getGiven_name(),
-          utilisateurSsoPe.getFamily_name(),
+          utilisateurSsoPe.getPrenom(),
+          utilisateurSsoPe.getNom(),
           utilisateurSsoPe.getEmail(),
           Structure.POLE_EMPLOI,
           Type.JEUNE
       );
-      Utilisateur utilisateur = userRepository.createOrFetch(utilisateurSso, utilisateurSsoPe.getSub());
+      Utilisateur utilisateur = userRepository.createOrFetch(utilisateurSso, idToken.getSubject());
       context.getUser().setAttribute("id_user", List.of(utilisateur.getId()));
       context.getUser().setAttribute("type", List.of(utilisateur.getType().toString()));
       context.getUser().setAttribute("structure", List.of(utilisateur.getStructure().toString()));
@@ -53,7 +57,7 @@ public class SsoPEJeuneAuthenticator implements Authenticator {
       context.getUser().setFirstName(utilisateur.getPrenom());
       context.getUser().setLastName(utilisateur.getNom());
       context.success();
-    } catch (FetchPEUtilisateurException | IOException e) {
+    } catch (FetchPEUtilisateurException | VerificationException | IOException e) {
       logger.error(e.getMessage());
       context.failure(AuthenticationFlowError.IDENTITY_PROVIDER_ERROR);
     } catch (FetchUtilisateurException e) {

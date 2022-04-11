@@ -226,7 +226,7 @@ variable "idp_pe_jeune_client_secret" {
 
 variable "idp_pe_jeune_scopes" {
   type = string
-  default = "application_PAR_passemploi_cf687713565051ad07767ad310617f054e3704edddeb5f48cc7f7417f0ab47ce api_peconnect-individuv1 openid profile email api_peconnect-coordonneesv1 individu api_peconnect-conseillersv1 api_peconnect-demarchesv1 demarches demarchesW api_peconnect-rendezvousagendav1 prdvl api_peconnect-gerer-prestationsv1 prestationDE"
+  default = "application_PAR_passemploi_cf687713565051ad07767ad310617f054e3704edddeb5f48cc7f7417f0ab47ce api_peconnect-individuv1 openid profile email api_peconnect-coordonneesv1 individu api_peconnect-conseillersv1 api_peconnect-demarchesv1 demarches demarchesW api_peconnect-rendezvousagendav1 prdvl api_peconnect-gerer-prestationsv1 prestationDE coordonnees"
   sensitive = true
   description = "pe_jeune_scopes"
 }
