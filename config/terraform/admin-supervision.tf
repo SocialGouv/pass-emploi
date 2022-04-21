@@ -1,14 +1,3 @@
-data "keycloak_openid_client" "realm_management" {
-  realm_id  = keycloak_realm.pass-emploi.id
-  client_id = "realm-management"
-}
-
-data "keycloak_role" "view_users" {
-  realm_id  = keycloak_realm.pass-emploi.id
-  client_id = data.keycloak_openid_client.realm_management.id
-  name      = "view-users"
-}
-
 resource "keycloak_role" "pass_emploi_admin_supervision_role" {
   realm_id        = keycloak_realm.pass-emploi.id
   name            = "admin_supervision"

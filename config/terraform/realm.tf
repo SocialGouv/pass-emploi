@@ -18,20 +18,22 @@ resource "keycloak_realm" "pass-emploi" {
   }
   security_defenses {
     brute_force_detection {
-      permanent_lockout                 = false
-      max_login_failures                = 5
-      wait_increment_seconds            = 60*10
-      quick_login_check_milli_seconds   = 1000
-      minimum_quick_login_wait_seconds  = 60
-      max_failure_wait_seconds          = 60*60*24
-      failure_reset_time_seconds        = 60*60*24*7
+      permanent_lockout                = false
+      max_login_failures               = 5
+      wait_increment_seconds           = 60*10
+      quick_login_check_milli_seconds  = 1000
+      minimum_quick_login_wait_seconds = 60
+      max_failure_wait_seconds         = 60*60*24
+      failure_reset_time_seconds       = 60*60*24*7
     }
   }
 }
 
 resource "keycloak_realm_events" "realm_events" {
-  realm_id = keycloak_realm.pass-emploi.id
-  events_enabled    = true
+  realm_id                     = keycloak_realm.pass-emploi.id
+  events_enabled               = true
+  enabled_event_types          = []
   admin_events_enabled         = true
   admin_events_details_enabled = true
+  events_expiration            = 60*60*24*90 //90 jours
 }
