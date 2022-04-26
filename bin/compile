@@ -99,6 +99,10 @@ start "Install APM Agent"
 install_elastic_apm_agent "${KEYCLOAK_PATH}" | indent
 finished
 
+start "Patch model infinispan"
+patch_model_infinispan
+finished
+
 start "Add keycloak admin user"
 if [[ -f "${ENV_DIR}/KEYCLOAK_ADMIN_USERNAME" && -f "${ENV_DIR}/KEYCLOAK_ADMIN_PASSWORD" ]]; then
   KEYCLOAK_ADMIN_USERNAME=$(cat "$ENV_DIR/KEYCLOAK_ADMIN_USERNAME")
