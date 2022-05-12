@@ -6,65 +6,67 @@ import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.common.VerificationException;
-import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.IDToken;
-import org.keycloak.util.JsonSerialization;
 import passemploi.authentication.user.model.*;
 import passemploi.authentication.user.repository.FetchPEUtilisateurException;
 import passemploi.authentication.user.repository.FetchUtilisateurException;
 import passemploi.authentication.user.repository.PoleEmploiRepository;
 import passemploi.authentication.user.repository.UserRepository;
 
-import java.io.IOException;
 import java.util.List;
 
 public class SsoPEJeuneAuthenticator implements Authenticator {
   protected static final Logger logger = Logger.getLogger(SsoPEJeuneAuthenticator.class);
   private final UserRepository userRepository;
   private final PoleEmploiRepository poleEmploiRepository;
-  private final String socialProvider;
 
-  public SsoPEJeuneAuthenticator(String provider) {
+  public SsoPEJeuneAuthenticator() {
     userRepository = new UserRepository();
     poleEmploiRepository = new PoleEmploiRepository();
-    socialProvider = provider;
   }
 
   @Override
   public void authenticate(AuthenticationFlowContext context) {
-    FederatedIdentityModel federatedIdentityModel = context.getSession().users().getFederatedIdentity(context.getRealm(), context.getUser(), socialProvider);
+    AccessTokenResponse tokenResponse = Helpers.getFederatedAccessTokenResponse(context);
     try {
-      AccessTokenResponse federatedToken = JsonSerialization.readValue(federatedIdentityModel.getToken(), AccessTokenResponse.class);
-      IDToken idToken = TokenVerifier.create(federatedToken.getIdToken(), IDToken.class).getToken();
-      UtilisateurSsoPeJeune utilisateurSsoPe = poleEmploiRepository.getJeune(federatedToken.getToken());
-      UtilisateurSso utilisateurSso = new UtilisateurSso(
+      UtilisateurSso utilisateurSso = buildUtilisateurSso(context, tokenResponse.getToken());
+      IDToken idTokenParsed = TokenVerifier.create(tokenResponse.getIdToken(), IDToken.class).getToken();
+      Utilisateur utilisateur = userRepository.createOrFetch(utilisateurSso, idTokenParsed.getSubject());
+      Helpers.setContextPostLogin(context, utilisateur);
+      context.success();
+    } catch (VerificationException e) {
+      logger.error(e);
+      context.failure(AuthenticationFlowError.IDENTITY_PROVIDER_ERROR);
+    } catch (FetchUtilisateurException e) {
+      logger.error(e);
+      Helpers.utilisateurInconnuRedirect(context, Helpers.UTILISATEUR_INCONNU_MESSAGE.JEUNE_PE_INCONNU);
+    }
+  }
+
+  private UtilisateurSso buildUtilisateurSso(AuthenticationFlowContext context, String accessToken) {
+    try {
+      UtilisateurSsoPeJeune utilisateurSsoPe = poleEmploiRepository.getJeune(accessToken);
+      return new UtilisateurSso(
           utilisateurSsoPe.getPrenom(),
           utilisateurSsoPe.getNom(),
           utilisateurSsoPe.getEmail(),
           Structure.POLE_EMPLOI,
           Type.JEUNE
       );
-      Utilisateur utilisateur = userRepository.createOrFetch(utilisateurSso, idToken.getSubject());
-      context.getUser().setAttribute("id_user", List.of(utilisateur.getId()));
-      context.getUser().setAttribute("type", List.of(utilisateur.getType().toString()));
-      context.getUser().setAttribute("structure", List.of(utilisateur.getStructure().toString()));
-      context.getUser().setAttribute("roles", utilisateur.getRoles());
-      context.getUser().setEmail(utilisateur.getEmail());
-      context.getUser().setFirstName(utilisateur.getPrenom());
-      context.getUser().setLastName(utilisateur.getNom());
-      context.success();
-    } catch (FetchPEUtilisateurException | VerificationException | IOException e) {
-      logger.error(e.getMessage());
-      context.failure(AuthenticationFlowError.IDENTITY_PROVIDER_ERROR);
-    } catch (FetchUtilisateurException e) {
-      logger.error(e.getMessage());
-      Helpers.utilisateurInconnuRedirect(context, Helpers.UTILISATEUR_INCONNU_MESSAGE.JEUNE_PE_INCONNU);
+    } catch (FetchPEUtilisateurException e) {
+      logger.error("Erreur lors de la recuperation de l'utilisteur PE, Fallback", e);
+      return new UtilisateurSso(context.getUser().getFirstName(),
+          context.getUser().getLastName(),
+          context.getUser().getEmail(),
+          Structure.POLE_EMPLOI,
+          Type.JEUNE);
     }
   }
+
 
   @Override
   public void action(AuthenticationFlowContext context) {

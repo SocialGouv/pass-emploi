@@ -29,25 +29,18 @@ public class PassEmploiAuthenticator implements Authenticator {
     try {
       Type type = Type.valueOf(context.getUser().getAttributes().get("type").get(0));
       if (type == Type.SUPPORT) {
-        context.getUser().setAttribute("id_user", List.of(context.getUser().getUsername()));
+        context.getUser().setSingleAttribute("id_user", context.getUser().getUsername());
         context.success();
         return;
       }
 
       String idUser = context.getUser().getAttributes().get("id_user").get(0);
       UtilisateurSso utilisateurSso = new UtilisateurSso(Structure.PASS_EMPLOI, type);
-
       Utilisateur utilisateur = userRepository.createOrFetch(utilisateurSso, idUser);
-      context.getUser().setAttribute("id_user", List.of(utilisateur.getId()));
-      context.getUser().setAttribute("type", List.of(utilisateur.getType().toString()));
-      context.getUser().setAttribute("structure", List.of(utilisateur.getStructure().toString()));
-      context.getUser().setAttribute("roles", utilisateur.getRoles());
-      context.getUser().setEmail(utilisateur.getEmail());
-      context.getUser().setFirstName(utilisateur.getPrenom());
-      context.getUser().setLastName(utilisateur.getNom());
+      Helpers.setContextPostLogin(context, utilisateur);
       context.success();
     } catch (FetchUtilisateurException e) {
-      logger.error(e.getMessage());
+      logger.error(e);
       Helpers.utilisateurInconnuRedirect(context, Helpers.UTILISATEUR_INCONNU_MESSAGE.UTILISATEUR_PASS_EMPLOI_INCONNU);
     }
   }

@@ -40,12 +40,12 @@ public class JeunePEAuthenticatorFactory implements AuthenticatorFactory, Config
 
   @Override
   public Authenticator create(KeycloakSession session) {
-    return new SsoPEJeuneAuthenticator(PROVIDER_ALIAS);
+    return new SsoPEJeuneAuthenticator();
   }
 
   private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
-    AuthenticationExecutionModel.Requirement.REQUIRED,
-    AuthenticationExecutionModel.Requirement.DISABLED
+      AuthenticationExecutionModel.Requirement.REQUIRED,
+      AuthenticationExecutionModel.Requirement.DISABLED
   };
 
   @Override

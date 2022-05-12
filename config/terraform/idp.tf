@@ -7,7 +7,7 @@ resource "keycloak_oidc_identity_provider" "idp_milo_conseiller" {
   client_id                     = "sue-portail-conseiller"
   client_secret                 = var.idp_similo_conseiller_client_secret
   token_url                     = var.idp_similo_conseiller_token_url
-  store_token                   = true
+  store_token                   = false
   add_read_token_role_on_create = true
   logout_url                    = var.idp_similo_conseiller_logout_url
   post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-conseiller-milo.alias
@@ -42,7 +42,7 @@ resource "keycloak_oidc_identity_provider" "idp_milo_jeune" {
   client_id                     = "sue-portail-jeunes"
   client_secret                 = var.idp_similo_jeune_client_secret
   token_url                     = var.idp_similo_jeune_token_url
-  store_token                   = true
+  store_token                   = false
   add_read_token_role_on_create = true
   logout_url                    = var.idp_similo_jeune_logout_url
   post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-jeune-milo.alias
@@ -77,7 +77,7 @@ resource "keycloak_oidc_identity_provider" "idp_pe_conseiller" {
   client_id                     = var.idp_pe_conseiller_client_id
   client_secret                 = var.idp_pe_conseiller_client_secret
   token_url                     = var.idp_pe_conseiller_token_url
-  store_token                   = true
+  store_token                   = false
   add_read_token_role_on_create = true
   logout_url                    = var.idp_pe_conseiller_logout_url
   post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-conseiller-pe.alias
@@ -101,7 +101,7 @@ resource "keycloak_oidc_identity_provider" "idp_pe_jeune" {
   client_id                     = var.idp_pe_jeune_client_id
   client_secret                 = var.idp_pe_jeune_client_secret
   token_url                     = var.idp_pe_jeune_token_url
-  store_token                   = true
+  store_token                   = false
   add_read_token_role_on_create = true
   logout_url                     = var.idp_pe_jeune_logout_url
   post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-jeune-pe.alias
