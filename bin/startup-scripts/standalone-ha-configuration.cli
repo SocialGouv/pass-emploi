@@ -1,4 +1,6 @@
 embed-server --server-config=standalone-ha.xml --std-out=echo
 run-batch --file= /opt/jboss/custom-startup-scripts/log.cli
 run-batch --file= /opt/jboss/custom-startup-scripts/datasource-pool.cli
+run-batch --file= /opt/jboss/custom-startup-scripts/connections-http-client.cli
+
 stop-embedded-server

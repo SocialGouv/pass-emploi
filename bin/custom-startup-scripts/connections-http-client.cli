@@ -1,0 +1,1 @@
+/subsystem=keycloak-server/spi=connectionsHttpClient/provider=default:write-attribute(name=properties.max-connection-idle-time-millis, value=${env.MAX_CONNECTION_IDLE_TIME_MILLIS:180000})
