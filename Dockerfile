@@ -1,4 +1,4 @@
-FROM scalingo/scalingo-18
+FROM scalingo/scalingo-20
 
 ADD . buildpack
 

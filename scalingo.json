@@ -12,7 +12,7 @@
     },
     "STACK": {
       "description": "scalingo stack",
-      "value": "scalingo-18",
+      "value": "scalingo-20",
       "required": false
     },
     "JQ_VERSION": {
