@@ -120,6 +120,35 @@ resource "keycloak_authentication_execution" "pass-emploi-idp-jeune-pe-execution
   authenticator     = "user-authenticator-jeune-pe"
 }
 
+########### CONSEILLER PE BRSA ###########
+resource "keycloak_authentication_flow" "pass-emploi-idp-conseiller-pe-brsa" {
+  realm_id    = keycloak_realm.pass-emploi.id
+  alias       = "pass-emploi-idp-conseiller-pe-brsa"
+  provider_id = "basic-flow"
+}
+
+resource "keycloak_authentication_execution" "pass-emploi-idp-conseiller-pe-brsa-execution" {
+  depends_on        = [keycloak_authentication_flow.pass-emploi-idp-conseiller-pe-brsa]
+  realm_id          = keycloak_realm.pass-emploi.id
+  parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp-conseiller-pe-brsa.alias
+  requirement       = "REQUIRED"
+  authenticator     = "user-authenticator-cons-pe-brsa"
+}
+########### JEUNE PE BRSA ###########
+resource "keycloak_authentication_flow" "pass-emploi-idp-jeune-pe-brsa" {
+  realm_id    = keycloak_realm.pass-emploi.id
+  alias       = "pass-emploi-idp-jeune-pe-brsa"
+  provider_id = "basic-flow"
+}
+
+resource "keycloak_authentication_execution" "pass-emploi-idp-jeune-pe-brsa-execution" {
+  depends_on        = [keycloak_authentication_flow.pass-emploi-idp-jeune-pe-brsa]
+  realm_id          = keycloak_realm.pass-emploi.id
+  parent_flow_alias = keycloak_authentication_flow.pass-emploi-idp-jeune-pe-brsa.alias
+  requirement       = "REQUIRED"
+  authenticator     = "user-authenticator-jeune-pe-brsa"
+}
+
 ########### FIRST BROKER LOGIN ###########
 data "keycloak_authentication_execution" "first_broker_login_review_profile_execution" {
   realm_id          = keycloak_realm.pass-emploi.id

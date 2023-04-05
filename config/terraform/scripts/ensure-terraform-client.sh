@@ -46,7 +46,7 @@ accessToken=$(
         | jq -r '.access_token'
 )
 
-function post() {
+post() {
     curl -ks --fail \
         -H "Authorization: bearer ${accessToken}" \
         -H "Content-Type: application/json" \
@@ -54,7 +54,7 @@ function post() {
         "${KEYCLOAK_URL}/auth/admin${1}"
 }
 
-function put() {
+put() {
     curl -ks --fail \
         -X PUT \
         -H "Authorization: bearer ${accessToken}" \
@@ -63,7 +63,7 @@ function put() {
         "${KEYCLOAK_URL}/auth/admin${1}"
 }
 
-function get() {
+get() {
     curl  -k --fail --silent \
         -H "Authorization: bearer ${accessToken}" \
         -H "Content-Type: application/json" \
