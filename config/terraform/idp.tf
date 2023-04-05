@@ -27,9 +27,9 @@ resource "keycloak_custom_identity_provider_mapper" "id_milo_conseiller" {
   identity_provider_mapper = "oidc-user-attribute-idp-mapper"
 
   extra_config = {
-    claim = "sub"
-    syncMode = "IMPORT"
-   "user.attribute" = "idMilo"
+    claim            = "sub"
+    syncMode         = "IMPORT"
+    "user.attribute" = "idMilo"
   }
 }
 
@@ -62,13 +62,13 @@ resource "keycloak_custom_identity_provider_mapper" "id_milo_jeune" {
   identity_provider_mapper = "oidc-user-attribute-idp-mapper"
 
   extra_config = {
-    claim = "sub"
-    syncMode = "IMPORT"
+    claim            = "sub"
+    syncMode         = "IMPORT"
     "user.attribute" = "idMilo"
   }
 }
 
-########### CONSEILLER PE ###########
+########### CONSEILLER PE CEJ ###########
 resource "keycloak_oidc_identity_provider" "idp_pe_conseiller" {
   realm                         = keycloak_realm.pass-emploi.id
   alias                         = "pe-conseiller"
@@ -84,7 +84,7 @@ resource "keycloak_oidc_identity_provider" "idp_pe_conseiller" {
   sync_mode                     = "FORCE"
   default_scopes                = var.idp_pe_conseiller_scopes
   hide_on_login_page            = var.idps_hide_on_login_page
-  enabled                       = var.idp_pe_conseiller_enabled
+  enabled                       = var.idp_pe_cej_conseiller_enabled
 
   extra_config = {
     "clientAuthMethod" = "client_secret_post"
@@ -92,7 +92,7 @@ resource "keycloak_oidc_identity_provider" "idp_pe_conseiller" {
 }
 
 
-########### JEUNE PE ###########
+########### JEUNE PE CEJ ###########
 resource "keycloak_oidc_identity_provider" "idp_pe_jeune" {
   realm                         = keycloak_realm.pass-emploi.id
   alias                         = "pe-jeune"
@@ -103,12 +103,59 @@ resource "keycloak_oidc_identity_provider" "idp_pe_jeune" {
   token_url                     = var.idp_pe_jeune_token_url
   store_token                   = false
   add_read_token_role_on_create = true
-  logout_url                     = var.idp_pe_jeune_logout_url
+  logout_url                    = var.idp_pe_jeune_logout_url
   post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-jeune-pe.alias
   sync_mode                     = "FORCE"
   default_scopes                = var.idp_pe_jeune_scopes
   hide_on_login_page            = var.idps_hide_on_login_page
-  enabled                       = var.idp_pe_jeune_enabled
+  enabled                       = var.idp_pe_cej_jeune_enabled
+
+  extra_config = {
+    "clientAuthMethod" = "client_secret_post"
+  }
+}
+
+########### CONSEILLER PE BRSA ###########
+resource "keycloak_oidc_identity_provider" "idp_pe_brsa_conseiller" {
+  realm                         = keycloak_realm.pass-emploi.id
+  alias                         = "pe-brsa-conseiller"
+  display_name                  = "PE BRSA - Conseillers"
+  authorization_url             = var.idp_pe_conseiller_authorization_url
+  client_id                     = var.idp_pe_conseiller_client_id
+  client_secret                 = var.idp_pe_conseiller_client_secret
+  token_url                     = var.idp_pe_conseiller_token_url
+  store_token                   = false
+  add_read_token_role_on_create = true
+  logout_url                    = var.idp_pe_conseiller_logout_url
+  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-conseiller-pe-brsa.alias
+  sync_mode                     = "FORCE"
+  default_scopes                = var.idp_pe_conseiller_scopes
+  hide_on_login_page            = var.idps_hide_on_login_page
+  enabled                       = var.idp_pe_brsa_conseiller_enabled
+
+  extra_config = {
+    "clientAuthMethod" = "client_secret_post"
+  }
+}
+
+
+########### JEUNE PE BRSA ###########
+resource "keycloak_oidc_identity_provider" "idp_pe_brsa_jeune" {
+  realm                         = keycloak_realm.pass-emploi.id
+  alias                         = "pe-brsa-jeune"
+  display_name                  = "PE BRSA - Jeunes"
+  authorization_url             = var.idp_pe_jeune_authorization_url
+  client_id                     = var.idp_pe_jeune_client_id
+  client_secret                 = var.idp_pe_jeune_client_secret
+  token_url                     = var.idp_pe_jeune_token_url
+  store_token                   = false
+  add_read_token_role_on_create = true
+  logout_url                    = var.idp_pe_jeune_logout_url
+  post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-jeune-pe-brsa.alias
+  sync_mode                     = "FORCE"
+  default_scopes                = var.idp_pe_jeune_scopes
+  hide_on_login_page            = var.idps_hide_on_login_page
+  enabled                       = var.idp_pe_brsa_jeune_enabled
 
   extra_config = {
     "clientAuthMethod" = "client_secret_post"
