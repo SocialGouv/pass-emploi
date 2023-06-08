@@ -1,6 +1,6 @@
 resource "keycloak_realm" "pass-emploi" {
   realm                                   = "pass-emploi"
-  display_name                            = "Application CEJ"
+  display_name                            = "Portail de connexion"
   enabled                                 = true
   login_theme                             = "theme-pass-emploi"
   access_token_lifespan_for_implicit_flow = "30m"
