@@ -30,6 +30,8 @@ services:
 #        # DEV THEME KC: décommenter les 2 lignes ci-dessous
 #        volumes:
 #          - ./theme-pass-emploi:/opt/jboss/keycloak/themes/theme-pass-emploi
+#          - ./theme-pass-emploi-web:/opt/jboss/keycloak/themes/theme-pass-emploi-web
+#          - ./theme-pass-emploi-app:/opt/jboss/keycloak/themes/theme-pass-emploi-app
 #        env_file: .env
 #        depends_on:
 #            - postgres

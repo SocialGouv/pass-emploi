@@ -9,6 +9,8 @@ FROM jboss/keycloak:16.1.0 AS run
 
 # DEV THEME KC: commenter la ligne ci-dessous
 #COPY --from=build theme-pass-emploi /opt/jboss/keycloak/themes/theme-pass-emploi
+#COPY --from=build theme-pass-emploi-web /opt/jboss/keycloak/themes/theme-pass-emploi-web
+#COPY --from=build theme-pass-emploi-app /opt/jboss/keycloak/themes/theme-pass-emploi-app
 COPY --from=build keycloak-customisation/build/libs/pass-emploi-keycloak-customisation-0.0.1-SNAPSHOT.jar /opt/jboss/keycloak/standalone/deployments/pass-emploi-keycloak-customisation.jar
 COPY bin/elastic-apm-agent-1.29.0.jar /usr/bin/elastic-apm-agent.jar
 COPY bin/custom-startup-scripts /opt/jboss/custom-startup-scripts

@@ -242,10 +242,12 @@ function configure_keycloak() {
   find "${keycloak_path}" -type f -name '*.sh' -exec sed -i "s|${BUILD_DIR}|\/app|g" {} \;
 }
 
-function install_custom_theme() {
+function install_custom_themes() {
   local dest="$1"
 
   mv "${BP_DIR}/theme-pass-emploi" "${dest}/themes/theme-pass-emploi"
+  mv "${BP_DIR}/theme-pass-emploi-web" "${dest}/themes/theme-pass-emploi-web"
+  mv "${BP_DIR}/theme-pass-emploi-app" "${dest}/themes/theme-pass-emploi-app"
 }
 
 function install_keycloak_customisation(){

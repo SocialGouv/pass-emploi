@@ -4,6 +4,7 @@ resource "keycloak_openid_client" "keycloak_openid_client_web" {
   client_secret = var.web_client_secret
 
   name = "Pass Emploi WEB"
+  login_theme = "theme-pass-emploi-web"
 
   access_type = "CONFIDENTIAL"
   valid_redirect_uris = var.web_valid_redirect_uris
