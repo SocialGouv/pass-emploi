@@ -69,14 +69,10 @@ public class SsoMiloAuthenticator implements Authenticator {
   }
 
   private void updateUsernameFromIdToken(AuthenticationFlowContext context) {
-    String username = context.getUser().getFirstAttribute("preferred_username");
-    logger.info("Preferred username from context.getUser() : " + username);
     AccessTokenResponse tokenResponse = Helpers.getFederatedAccessTokenResponse(context);
     try {
       IDToken idToken = TokenVerifier.create(tokenResponse.getIdToken(), IDToken.class).getToken();
-      String preferredUsername = idToken.getPreferredUsername();
-      logger.info("Preferred username from ID token: " + preferredUsername);
-      context.getUser().setUsername(preferredUsername);
+      context.getUser().setUsername(idToken.getPreferredUsername());
     } catch (VerificationException e) {
       logger.error(e.getMessage());
     }
