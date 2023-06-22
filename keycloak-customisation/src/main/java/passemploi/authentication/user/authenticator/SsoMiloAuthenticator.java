@@ -72,7 +72,11 @@ public class SsoMiloAuthenticator implements Authenticator {
     AccessTokenResponse tokenResponse = Helpers.getFederatedAccessTokenResponse(context);
     try {
       IDToken idToken = TokenVerifier.create(tokenResponse.getIdToken(), IDToken.class).getToken();
-      context.getUser().setUsername(idToken.getPreferredUsername());
+      String preferredUsername = idToken.getPreferredUsername();
+      if (preferredUsername != null && !preferredUsername.isEmpty()) {
+      	logger.info("MAJ du preferred username : " + preferredUsername);
+        context.getUser().setUsername(idToken.getPreferredUsername());
+      }
     } catch (VerificationException e) {
       logger.error(e.getMessage());
     }
