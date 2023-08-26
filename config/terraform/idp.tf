@@ -12,6 +12,7 @@ resource "keycloak_oidc_identity_provider" "idp_milo_conseiller" {
   logout_url                    = var.idp_similo_conseiller_logout_url
   post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-conseiller-milo.alias
   sync_mode                     = "FORCE"
+  default_scopes                = "openid offline_access"
   hide_on_login_page            = var.idps_hide_on_login_page
   enabled                       = var.idp_similo_conseiller_enabled
 
@@ -47,6 +48,7 @@ resource "keycloak_oidc_identity_provider" "idp_milo_jeune" {
   logout_url                    = var.idp_similo_jeune_logout_url
   post_broker_login_flow_alias  = keycloak_authentication_flow.pass-emploi-idp-jeune-milo.alias
   sync_mode                     = "FORCE"
+  default_scopes                = "openid offline_access"
   hide_on_login_page            = var.idps_hide_on_login_page
   enabled                       = var.idp_similo_jeune_enabled
 
