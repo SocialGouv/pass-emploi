@@ -41,7 +41,7 @@ public class JeuneMiloAuthenticatorFactory implements AuthenticatorFactory, Conf
 
   @Override
   public Authenticator create(KeycloakSession session) {
-    return new SsoMiloAuthenticator(Type.JEUNE);
+    return new SsoMiloAuthenticator(Type.JEUNE, session);
   }
 
   private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {

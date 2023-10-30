@@ -17,16 +17,16 @@ import passemploi.authentication.user.repository.FetchUtilisateurException;
 import passemploi.authentication.user.repository.PoleEmploiRepository;
 import passemploi.authentication.user.repository.UserRepository;
 
-import java.util.List;
-
 public class SsoPEJeuneAuthenticator implements Authenticator {
   protected static final Logger logger = Logger.getLogger(SsoPEJeuneAuthenticator.class);
   private final UserRepository userRepository;
   private final PoleEmploiRepository poleEmploiRepository;
+  private final KeycloakSession session;
 
-  public SsoPEJeuneAuthenticator() {
+  public SsoPEJeuneAuthenticator(KeycloakSession session) {
     userRepository = new UserRepository();
     poleEmploiRepository = new PoleEmploiRepository();
+    this.session = session;
   }
 
   @Override
@@ -40,9 +40,16 @@ public class SsoPEJeuneAuthenticator implements Authenticator {
       context.success();
     } catch (VerificationException e) {
       logger.error(e);
+      logger.info('############## VerificationException');
       context.failure(AuthenticationFlowError.IDENTITY_PROVIDER_ERROR);
     } catch (FetchUtilisateurException e) {
       logger.error(e);
+      logger.info('############## FetchUtilisateurException');
+      Boolean delete1 = session.userLocalStorage().removeUser(context.getRealm(), context.getUser());
+      Boolean delete2 = session.userStorageManager().removeUser(context.getRealm(), context.getUser());
+      Boolean delete3 = session.users().removeUser(context.getRealm(), context.getUser());
+      logger.info(delete1.toString() + ' ' + delete2.toString() + ' ' + delete3.toString());
+      session.userCache().clear();
       Helpers.utilisateurInconnuRedirect(context, Helpers.UTILISATEUR_INCONNU_MESSAGE.JEUNE_PE_INCONNU);
     }
   }

@@ -23,10 +23,12 @@ public class SsoPEBRSAJeuneAuthenticator implements Authenticator {
   protected static final Logger logger = Logger.getLogger(SsoPEBRSAJeuneAuthenticator.class);
   private final UserRepository userRepository;
   private final PoleEmploiRepository poleEmploiRepository;
+  private final KeycloakSession session;
 
-  public SsoPEBRSAJeuneAuthenticator() {
+  public SsoPEBRSAJeuneAuthenticator(KeycloakSession session) {
     userRepository = new UserRepository();
     poleEmploiRepository = new PoleEmploiRepository();
+    this.session = session;
   }
 
   @Override
@@ -38,11 +40,26 @@ public class SsoPEBRSAJeuneAuthenticator implements Authenticator {
       Utilisateur utilisateur = userRepository.createOrFetch(utilisateurSso, idTokenParsed.getSubject());
       Helpers.setContextPostLogin(context, utilisateur);
       context.success();
+    } catch (Exception e) {
+      logger.info('############## Exception');
+      logger.error(e);
+      Boolean delete1 = session.userLocalStorage().removeUser(context.getRealm(), context.getUser());
+      Boolean delete2 = session.userStorageManager().removeUser(context.getRealm(), context.getUser());
+      Boolean delete3 = session.users().removeUser(context.getRealm(), context.getUser());
+      logger.info(delete1.toString() + ' ' + delete2.toString() + ' ' + delete3.toString());
+      session.userCache().clear();
     } catch (VerificationException e) {
       logger.error(e);
+      logger.info('############## VerificationException');
       context.failure(AuthenticationFlowError.IDENTITY_PROVIDER_ERROR);
     } catch (FetchUtilisateurException e) {
       logger.error(e);
+      logger.info('############## FetchUtilisateurException');
+      Boolean delete1 = session.userLocalStorage().removeUser(context.getRealm(), context.getUser());
+      Boolean delete2 = session.userStorageManager().removeUser(context.getRealm(), context.getUser());
+      Boolean delete3 = session.users().removeUser(context.getRealm(), context.getUser());
+      logger.info(delete1.toString() + ' ' + delete2.toString() + ' ' + delete3.toString());
+      session.userCache().clear();
       Helpers.utilisateurInconnuRedirect(context, Helpers.UTILISATEUR_INCONNU_MESSAGE.JEUNE_PE_INCONNU);
     }
   }

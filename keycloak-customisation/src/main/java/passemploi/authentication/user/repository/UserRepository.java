@@ -42,6 +42,7 @@ public class UserRepository {
       if (response.getStatusLine().getStatusCode() == 200) {
         return JsonSerialization.readValue(response.getEntity().getContent(), Utilisateur.class);
       } else {
+        logger.info("TESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSST");
         logger.error("Une erreur est survenue lors de la récupération de l'utilisateur. Code HTTP : " + response.getStatusLine().getStatusCode());
         logger.error("Une erreur est survenue lors de la récupération de l'utilisateur. Message : " + response.getEntity().getContent().toString());
         throw new FetchUtilisateurException("Une erreur est survenue lors de la récupération de l'utilisateur. Code HTTP : " + response.getStatusLine().getStatusCode());
