@@ -23,8 +23,10 @@ public class SsoPEJeuneAuthenticator implements Authenticator {
   protected static final Logger logger = Logger.getLogger(SsoPEJeuneAuthenticator.class);
   private final UserRepository userRepository;
   private final PoleEmploiRepository poleEmploiRepository;
+  private final KeycloakSession session;
 
-  public SsoPEJeuneAuthenticator() {
+  public SsoPEJeuneAuthenticator(KeycloakSession session) {
+    this.session = session;
     userRepository = new UserRepository();
     poleEmploiRepository = new PoleEmploiRepository();
   }
@@ -43,6 +45,7 @@ public class SsoPEJeuneAuthenticator implements Authenticator {
       context.failure(AuthenticationFlowError.IDENTITY_PROVIDER_ERROR);
     } catch (FetchUtilisateurException e) {
       logger.error(e);
+      session.userLocalStorage().removeUser(context.getRealm(), context.getUser());
       Helpers.utilisateurInconnuRedirect(context, Helpers.UTILISATEUR_INCONNU_MESSAGE.JEUNE_PE_INCONNU);
     }
   }

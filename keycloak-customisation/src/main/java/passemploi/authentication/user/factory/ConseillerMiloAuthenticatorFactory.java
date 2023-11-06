@@ -40,7 +40,7 @@ public class ConseillerMiloAuthenticatorFactory implements AuthenticatorFactory,
 
     @Override
     public Authenticator create(KeycloakSession session) {
-        return new SsoMiloAuthenticator(Type.CONSEILLER);
+        return new SsoMiloAuthenticator(Type.CONSEILLER, null);
     }
 
     private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {

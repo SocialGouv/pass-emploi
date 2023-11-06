@@ -22,9 +22,11 @@ public class SsoMiloAuthenticator implements Authenticator {
   protected static final Logger logger = Logger.getLogger(SsoMiloAuthenticator.class);
   private final UserRepository userRepository;
   private final Type type;
+  private final KeycloakSession session;
 
-  public SsoMiloAuthenticator(Type type) {
+  public SsoMiloAuthenticator(Type type, KeycloakSession session) {
     this.type = type;
+    this.session = session;
     userRepository = new UserRepository();
   }
 
@@ -40,6 +42,9 @@ public class SsoMiloAuthenticator implements Authenticator {
       updateUsernameFromIdToken(context);
     } catch (FetchUtilisateurException e) {
       logger.error(e.getMessage());
+      if (session != null) {
+        session.userLocalStorage().removeUser(context.getRealm(), context.getUser());
+      }
       throw new IdentityBrokerException(e.getMessage());
     }
     context.success();

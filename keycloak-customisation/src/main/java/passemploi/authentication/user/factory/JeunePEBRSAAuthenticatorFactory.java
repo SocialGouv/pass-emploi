@@ -40,7 +40,7 @@ public class JeunePEBRSAAuthenticatorFactory implements AuthenticatorFactory, Co
 
   @Override
   public Authenticator create(KeycloakSession session) {
-    return new SsoPEBRSAJeuneAuthenticator();
+    return new SsoPEBRSAJeuneAuthenticator(session);
   }
 
   private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
