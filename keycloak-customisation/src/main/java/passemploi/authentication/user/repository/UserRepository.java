@@ -7,6 +7,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.jboss.logging.Logger;
 import org.keycloak.util.JsonSerialization;
 import passemploi.authentication.user.model.Utilisateur;
@@ -43,7 +44,8 @@ public class UserRepository {
         return JsonSerialization.readValue(response.getEntity().getContent(), Utilisateur.class);
       } else {
         logger.error("Une erreur est survenue lors de la récupération de l'utilisateur. Code HTTP : " + response.getStatusLine().getStatusCode());
-        logger.error("Une erreur est survenue lors de la récupération de l'utilisateur. Message : " + response.getEntity().getContent().toString());
+        final String responseBody = EntityUtils.toString(response.getEntity());
+        logger.error("Une erreur est survenue lors de la récupération de l'utilisateur. Message : " + responseBody);
         throw new FetchUtilisateurException("Une erreur est survenue lors de la récupération de l'utilisateur. Code HTTP : " + response.getStatusLine().getStatusCode());
       }
     } catch (IOException e) {
