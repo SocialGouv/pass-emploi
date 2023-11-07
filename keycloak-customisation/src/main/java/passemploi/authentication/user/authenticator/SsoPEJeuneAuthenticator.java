@@ -17,8 +17,6 @@ import passemploi.authentication.user.repository.FetchUtilisateurException;
 import passemploi.authentication.user.repository.PoleEmploiRepository;
 import passemploi.authentication.user.repository.UserRepository;
 
-import java.util.List;
-
 public class SsoPEJeuneAuthenticator implements Authenticator {
   protected static final Logger logger = Logger.getLogger(SsoPEJeuneAuthenticator.class);
   private final UserRepository userRepository;
@@ -45,8 +43,8 @@ public class SsoPEJeuneAuthenticator implements Authenticator {
       context.failure(AuthenticationFlowError.IDENTITY_PROVIDER_ERROR);
     } catch (FetchUtilisateurException e) {
       logger.error(e);
-      session.userLocalStorage().removeUser(context.getRealm(), context.getUser());
-      Helpers.utilisateurInconnuRedirect(context, Helpers.UTILISATEUR_INCONNU_MESSAGE.JEUNE_PE_INCONNU);
+      Helpers.supprimerUtilisateurSelonErreur(e.getAuthCEJErrorCode(), context, session);
+      Helpers.utilisateurInconnuRedirect(context, Helpers.getMessageSelonErreur(e.getAuthCEJErrorCode()));
     }
   }
 

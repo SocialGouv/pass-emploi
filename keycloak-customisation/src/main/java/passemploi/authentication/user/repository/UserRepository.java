@@ -7,10 +7,13 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.jboss.logging.Logger;
 import org.keycloak.util.JsonSerialization;
+import passemploi.authentication.user.authenticator.Helpers;
 import passemploi.authentication.user.model.Utilisateur;
 import passemploi.authentication.user.model.UtilisateurSso;
+import twitter4j.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
@@ -43,12 +46,46 @@ public class UserRepository {
         return JsonSerialization.readValue(response.getEntity().getContent(), Utilisateur.class);
       } else {
         logger.error("Une erreur est survenue lors de la récupération de l'utilisateur. Code HTTP : " + response.getStatusLine().getStatusCode());
-        logger.error("Une erreur est survenue lors de la récupération de l'utilisateur. Message : " + response.getEntity().getContent().toString());
-        throw new FetchUtilisateurException("Une erreur est survenue lors de la récupération de l'utilisateur. Code HTTP : " + response.getStatusLine().getStatusCode());
+        final String responseBody = EntityUtils.toString(response.getEntity());
+        logger.error("Une erreur est survenue lors de la récupération de l'utilisateur. Message : " + responseBody);
+        throw new FetchUtilisateurException("Une erreur est survenue lors de la récupération de l'utilisateur. Code HTTP : " + response.getStatusLine().getStatusCode(), this.getAuthCEJErrorCode(responseBody));
       }
     } catch (IOException e) {
       logger.error("error while fetching user: " + idUtilisateur, e);
-      throw new FetchUtilisateurException("Une erreur est survenue lors de la récupération de l'utilisateur");
+      throw new FetchUtilisateurException("Une erreur est survenue lors de la récupération de l'utilisateur", Helpers.AuthCEJErrorCode.ERREUR_INCONNUE);
     }
+  }
+
+  private Helpers.AuthCEJErrorCode getAuthCEJErrorCode(String responseBody) {
+    JSONObject jsonResponse = new JSONObject(responseBody);
+    final String errorCode = jsonResponse.getString("code");
+    Helpers.AuthCEJErrorCode authCEJErrorCode = Helpers.AuthCEJErrorCode.ERREUR_INCONNUE;
+    switch (errorCode) {
+      case "NON_TRAITABLE":
+        authCEJErrorCode = Helpers.AuthCEJErrorCode.NON_TRAITABLE;
+        break;
+      case "UTILISATEUR_INEXISTANT":
+        authCEJErrorCode = Helpers.AuthCEJErrorCode.UTILISATEUR_INEXISTANT;
+        break;
+      case "UTILISATEUR_DEJA_PE":
+        authCEJErrorCode = Helpers.AuthCEJErrorCode.UTILISATEUR_DEJA_PE;
+        break;
+      case "UTILISATEUR_DEJA_PE_BRSA":
+        authCEJErrorCode = Helpers.AuthCEJErrorCode.UTILISATEUR_DEJA_PE_BRSA;
+        break;
+      case "UTILISATEUR_DEJA_MILO":
+        authCEJErrorCode = Helpers.AuthCEJErrorCode.UTILISATEUR_DEJA_MILO;
+        break;
+      case "UTILISATEUR_NOUVEAU_PE":
+        authCEJErrorCode = Helpers.AuthCEJErrorCode.UTILISATEUR_NOUVEAU_PE;
+        break;
+      case "UTILISATEUR_NOUVEAU_PE_BRSA":
+        authCEJErrorCode = Helpers.AuthCEJErrorCode.UTILISATEUR_NOUVEAU_PE_BRSA;
+        break;
+      case "UTILISATEUR_NOUVEAU_MILO":
+        authCEJErrorCode = Helpers.AuthCEJErrorCode.UTILISATEUR_NOUVEAU_MILO;
+        break;
+    }
+    return authCEJErrorCode;
   }
 }

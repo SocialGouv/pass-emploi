@@ -7,6 +7,7 @@ import org.keycloak.authentication.authenticators.broker.util.PostBrokerLoginCon
 import org.keycloak.authentication.authenticators.broker.util.SerializedBrokeredIdentityContext;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.forms.login.LoginFormsProvider;
+import org.keycloak.models.KeycloakSession;
 import org.keycloak.representations.AccessTokenResponse;
 import passemploi.authentication.user.model.Utilisateur;
 
@@ -15,18 +16,29 @@ import javax.ws.rs.core.Response;
 import static org.keycloak.broker.oidc.OIDCIdentityProvider.FEDERATED_ACCESS_TOKEN_RESPONSE;
 
 public class Helpers {
-  public enum UTILISATEUR_INCONNU_MESSAGE {
+  public enum AuthCEJErrorCode {
+    ERREUR_INCONNUE, NON_TRAITABLE, UTILISATEUR_INEXISTANT, UTILISATEUR_DEJA_PE, UTILISATEUR_DEJA_PE_BRSA, UTILISATEUR_DEJA_MILO, UTILISATEUR_NOUVEAU_PE, UTILISATEUR_NOUVEAU_PE_BRSA, UTILISATEUR_NOUVEAU_MILO
+  }
+  public enum UtilisateurInconnuMessage {
     JEUNE_PE_INCONNU("passJeunePEInconnu"),
-    UTILISATEUR_PASS_EMPLOI_INCONNU("passUtilisateurInconnu");
+    UTILISATEUR_PASS_EMPLOI_INCONNU("passUtilisateurInconnu"),
+    JEUNE_INEXISTANT("jeuneInexistant"),
+    JEUNE_DEJA_PE("jeuneDejaPE"),
+    JEUNE_DEJA_PE_BRSA("jeuneDejaPEBRSA"),
+    JEUNE_DEJA_MILO("jeuneDejaMilo"),
+    JEUNE_NOUVEAU_PE("jeuneNouveauPE"),
+    JEUNE_NOUVEAU_PE_BRSA("jeuneNouveauPEBRSA"),
+    JEUNE_NOUVEAU_MILO("jeuneNouveauMilo");
+
 
     public final String value;
 
-    UTILISATEUR_INCONNU_MESSAGE(String value) {
+    UtilisateurInconnuMessage(String value) {
       this.value = value;
     }
   }
 
-  static public void utilisateurInconnuRedirect(AuthenticationFlowContext context, UTILISATEUR_INCONNU_MESSAGE utilisateurInconnuMessage) {
+  static public void utilisateurInconnuRedirect(AuthenticationFlowContext context, UtilisateurInconnuMessage utilisateurInconnuMessage) {
     LoginFormsProvider form = context.form();
     form.setAttribute("utilisateurInconnu", true);
     form.setAttribute("passMessage", utilisateurInconnuMessage.value);
@@ -55,4 +67,33 @@ public class Helpers {
     context.getUser().setLastName(utilisateur.getNom());
   }
 
+  public static void supprimerUtilisateurSelonErreur(AuthCEJErrorCode errorCode, AuthenticationFlowContext context, KeycloakSession session) {
+    if (session == null) {
+      return;
+    }
+    if (errorCode == AuthCEJErrorCode.UTILISATEUR_INEXISTANT || errorCode == AuthCEJErrorCode.UTILISATEUR_NOUVEAU_MILO || errorCode == AuthCEJErrorCode.UTILISATEUR_NOUVEAU_PE || errorCode == AuthCEJErrorCode.UTILISATEUR_NOUVEAU_PE_BRSA) {
+      session.userLocalStorage().removeUser(context.getRealm(), context.getUser());
+    }
+  }
+
+  public static UtilisateurInconnuMessage getMessageSelonErreur(AuthCEJErrorCode errorCode) {
+    switch (errorCode) {
+      case UTILISATEUR_INEXISTANT:
+        return Helpers.UtilisateurInconnuMessage.JEUNE_INEXISTANT;
+      case UTILISATEUR_NOUVEAU_PE:
+        return Helpers.UtilisateurInconnuMessage.JEUNE_NOUVEAU_PE;
+      case UTILISATEUR_NOUVEAU_PE_BRSA:
+        return Helpers.UtilisateurInconnuMessage.JEUNE_NOUVEAU_PE_BRSA;
+      case UTILISATEUR_NOUVEAU_MILO:
+        return Helpers.UtilisateurInconnuMessage.JEUNE_NOUVEAU_MILO;
+      case UTILISATEUR_DEJA_PE:
+        return Helpers.UtilisateurInconnuMessage.JEUNE_DEJA_PE;
+      case UTILISATEUR_DEJA_PE_BRSA:
+        return Helpers.UtilisateurInconnuMessage.JEUNE_DEJA_PE_BRSA;
+      case UTILISATEUR_DEJA_MILO:
+        return Helpers.UtilisateurInconnuMessage.JEUNE_DEJA_MILO;
+      default:
+        return Helpers.UtilisateurInconnuMessage.JEUNE_PE_INCONNU;
+    }
+  }
 }

@@ -42,9 +42,7 @@ public class SsoMiloAuthenticator implements Authenticator {
       updateUsernameFromIdToken(context);
     } catch (FetchUtilisateurException e) {
       logger.error(e.getMessage());
-      if (session != null) {
-        session.userLocalStorage().removeUser(context.getRealm(), context.getUser());
-      }
+      Helpers.supprimerUtilisateurSelonErreur(e.getAuthCEJErrorCode(), context, session);
       throw new IdentityBrokerException(e.getMessage());
     }
     context.success();

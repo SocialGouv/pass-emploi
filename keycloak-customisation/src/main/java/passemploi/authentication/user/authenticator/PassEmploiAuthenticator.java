@@ -13,8 +13,6 @@ import passemploi.authentication.user.model.UtilisateurSso;
 import passemploi.authentication.user.repository.FetchUtilisateurException;
 import passemploi.authentication.user.repository.UserRepository;
 
-import java.util.List;
-
 public class PassEmploiAuthenticator implements Authenticator {
 
   protected static final Logger logger = Logger.getLogger(PassEmploiAuthenticator.class);
@@ -41,7 +39,7 @@ public class PassEmploiAuthenticator implements Authenticator {
       context.success();
     } catch (FetchUtilisateurException e) {
       logger.error(e);
-      Helpers.utilisateurInconnuRedirect(context, Helpers.UTILISATEUR_INCONNU_MESSAGE.UTILISATEUR_PASS_EMPLOI_INCONNU);
+      Helpers.utilisateurInconnuRedirect(context, Helpers.UtilisateurInconnuMessage.UTILISATEUR_PASS_EMPLOI_INCONNU);
     }
   }
 
