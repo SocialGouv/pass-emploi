@@ -13,10 +13,12 @@ import org.keycloak.util.JsonSerialization;
 import passemploi.authentication.user.authenticator.Helpers;
 import passemploi.authentication.user.model.Utilisateur;
 import passemploi.authentication.user.model.UtilisateurSso;
-import twitter4j.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class UserRepository {
   private final CloseableHttpClient httpClient;
@@ -57,9 +59,12 @@ public class UserRepository {
   }
 
   private Helpers.AuthCEJErrorCode getAuthCEJErrorCode(String responseBody) {
-    JSONObject jsonResponse = new JSONObject(responseBody);
-    final String errorCode = jsonResponse.getString("code");
+    ObjectMapper objectMapper = new ObjectMapper();
     Helpers.AuthCEJErrorCode authCEJErrorCode = Helpers.AuthCEJErrorCode.ERREUR_INCONNUE;
+
+    try {
+    JsonNode jsonResponse = objectMapper.readTree(responseBody);
+    final String errorCode = jsonResponse.get("code").asText();
     switch (errorCode) {
       case "NON_TRAITABLE":
         authCEJErrorCode = Helpers.AuthCEJErrorCode.NON_TRAITABLE;
@@ -85,6 +90,9 @@ public class UserRepository {
       case "UTILISATEUR_NOUVEAU_MILO":
         authCEJErrorCode = Helpers.AuthCEJErrorCode.UTILISATEUR_NOUVEAU_MILO;
         break;
+    }
+    } catch (IOException e) {
+      logger.warn(e.getMessage());
     }
     return authCEJErrorCode;
   }
