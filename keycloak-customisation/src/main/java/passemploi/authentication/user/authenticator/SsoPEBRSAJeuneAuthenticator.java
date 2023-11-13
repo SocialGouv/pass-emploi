@@ -45,7 +45,7 @@ public class SsoPEBRSAJeuneAuthenticator implements Authenticator {
     } catch (FetchUtilisateurException e) {
       logger.error(e);
       Helpers.supprimerUtilisateurSelonErreur(e.getAuthCEJErrorCode(), context, session);
-      Helpers.utilisateurInconnuRedirect(context, Helpers.getMessageSelonErreur(e.getAuthCEJErrorCode()));
+      Helpers.utilisateurInconnuRedirect(context, Helpers.getMessageSelonErreur(e.getAuthCEJErrorCode(), Helpers.Idp.POLE_EMPLOI_BRSA));
     }
   }
 

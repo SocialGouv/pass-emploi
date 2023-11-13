@@ -19,16 +19,22 @@ public class Helpers {
   public enum AuthCEJErrorCode {
     ERREUR_INCONNUE, NON_TRAITABLE, UTILISATEUR_INEXISTANT, UTILISATEUR_DEJA_PE, UTILISATEUR_DEJA_PE_BRSA, UTILISATEUR_DEJA_MILO, UTILISATEUR_NOUVEAU_PE, UTILISATEUR_NOUVEAU_PE_BRSA, UTILISATEUR_NOUVEAU_MILO
   }
+
+  public enum Idp {
+    POLE_EMPLOI, POLE_EMPLOI_BRSA
+  }
   public enum UtilisateurInconnuMessage {
     JEUNE_PE_INCONNU("passJeunePEInconnu"),
     UTILISATEUR_PASS_EMPLOI_INCONNU("passUtilisateurInconnu"),
     JEUNE_INEXISTANT("jeuneInexistant"),
-    JEUNE_DEJA_PE("jeuneDejaPE"),
+    JEUNE_DEJA_PE_IDP_PE_BRSA("jeuneDejaPEIdpPEBRSA"),
     JEUNE_DEJA_PE_BRSA("jeuneDejaPEBRSA"),
-    JEUNE_DEJA_MILO("jeuneDejaMilo"),
-    JEUNE_NOUVEAU_PE("jeuneNouveauPE"),
+    JEUNE_DEJA_MILO_IDP_PE("jeuneDejaMiloIdpPE"),
+    JEUNE_DEJA_MILO_IDP_PE_BRSA("jeuneDejaMiloIdpPEBRSA"),
+    JEUNE_NOUVEAU_PE_IDP_PE_BRSA("jeuneNouveauPEIdpPEBRSA"),
     JEUNE_NOUVEAU_PE_BRSA("jeuneNouveauPEBRSA"),
-    JEUNE_NOUVEAU_MILO("jeuneNouveauMilo");
+    JEUNE_NOUVEAU_MILO_IDP_PE("jeuneNouveauMiloIdpPE"),
+    JEUNE_NOUVEAU_MILO_IDP_PE_BRSA("jeuneNouveauMiloIdpPEBRSA");
 
 
     public final String value;
@@ -76,22 +82,28 @@ public class Helpers {
     }
   }
 
-  public static UtilisateurInconnuMessage getMessageSelonErreur(AuthCEJErrorCode errorCode) {
+  public static UtilisateurInconnuMessage getMessageSelonErreur(AuthCEJErrorCode errorCode, Idp idp) {
     switch (errorCode) {
       case UTILISATEUR_INEXISTANT:
         return Helpers.UtilisateurInconnuMessage.JEUNE_INEXISTANT;
-      case UTILISATEUR_NOUVEAU_PE:
-        return Helpers.UtilisateurInconnuMessage.JEUNE_NOUVEAU_PE;
+      case UTILISATEUR_NOUVEAU_PE: {
+        if (idp == Idp.POLE_EMPLOI_BRSA) return Helpers.UtilisateurInconnuMessage.JEUNE_NOUVEAU_PE_IDP_PE_BRSA;
+      }
       case UTILISATEUR_NOUVEAU_PE_BRSA:
         return Helpers.UtilisateurInconnuMessage.JEUNE_NOUVEAU_PE_BRSA;
-      case UTILISATEUR_NOUVEAU_MILO:
-        return Helpers.UtilisateurInconnuMessage.JEUNE_NOUVEAU_MILO;
-      case UTILISATEUR_DEJA_PE:
-        return Helpers.UtilisateurInconnuMessage.JEUNE_DEJA_PE;
+      case UTILISATEUR_NOUVEAU_MILO: {
+        if (idp == Idp.POLE_EMPLOI) return Helpers.UtilisateurInconnuMessage.JEUNE_NOUVEAU_MILO_IDP_PE;
+        if (idp == Idp.POLE_EMPLOI_BRSA) return Helpers.UtilisateurInconnuMessage.JEUNE_NOUVEAU_MILO_IDP_PE_BRSA;
+      }
+      case UTILISATEUR_DEJA_PE: {
+        if (idp == Idp.POLE_EMPLOI_BRSA) return Helpers.UtilisateurInconnuMessage.JEUNE_DEJA_PE_IDP_PE_BRSA;
+      }
       case UTILISATEUR_DEJA_PE_BRSA:
         return Helpers.UtilisateurInconnuMessage.JEUNE_DEJA_PE_BRSA;
-      case UTILISATEUR_DEJA_MILO:
-        return Helpers.UtilisateurInconnuMessage.JEUNE_DEJA_MILO;
+      case UTILISATEUR_DEJA_MILO: {
+        if (idp == Idp.POLE_EMPLOI) return Helpers.UtilisateurInconnuMessage.JEUNE_DEJA_MILO_IDP_PE;
+        if (idp == Idp.POLE_EMPLOI_BRSA) return Helpers.UtilisateurInconnuMessage.JEUNE_DEJA_MILO_IDP_PE_BRSA;
+      }
       default:
         return Helpers.UtilisateurInconnuMessage.JEUNE_PE_INCONNU;
     }
