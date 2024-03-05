@@ -1,66 +1,32 @@
-resource "keycloak_user" "user_nils_tavernier" {
+resource "keycloak_user" "user_conseiller_zema" {
   realm_id   = keycloak_realm.pass-emploi.id
   enabled    = true
-  first_name = "Nils"
-  last_name  = "Tavernier"
-  email      = ""
-  username   = "41"
+  first_name = "Conseiller"
+  last_name  = "Dépt"
+  email      = "zema@octo.com"
+  username   = "zema@octo.com"
   attributes = {
-    id_user = "41",
-    type = "CONSEILLER",
-    structure = "PASS_EMPLOI"
+    id_user   = "zema@octo.com",
+    type      = "CONSEILLER",
+    structure = "CONSEILLER_DEPT"
   }
   initial_password {
-    value = "41"
+    value = "zema"
   }
 }
-
-resource "keycloak_user" "user_virginie_renoux" {
+resource "keycloak_user" "user_conseiller_jopa" {
   realm_id   = keycloak_realm.pass-emploi.id
   enabled    = true
-  first_name = "Virginie"
-  last_name  = "Renoux"
-  email      = ""
-  username   = "42"
+  first_name = "Conseiller"
+  last_name  = "Dépt"
+  email      = "jopa@octo.com"
+  username   = "jopa@octo.com"
   attributes = {
-    id_user = "42",
-    type = "CONSEILLER",
-    structure = "PASS_EMPLOI"
+    id_user   = "jopa@octo.com",
+    type      = "CONSEILLER",
+    structure = "CONSEILLER_DEPT"
   }
   initial_password {
-    value = "42"
-  }
-}
-
-resource "keycloak_user" "user_kenji_lefameux" {
-  realm_id   = keycloak_realm.pass-emploi.id
-  enabled    = true
-  first_name = "Kenji"
-  last_name  = "Lefameux"
-  email      = ""
-  username   = "1"
-  attributes = {
-    id_user = "1",
-    type = "JEUNE",
-    structure = "PASS_EMPLOI"
-  }
-  initial_password {
-    value = "1"
-  }
-}
-
-resource "keycloak_user" "user_deployeur" {
-  realm_id   = keycloak_realm.pass-emploi.id
-  enabled    = true
-  first_name = "Le"
-  last_name  = "Deployeur"
-  email      = ""
-  username   = "deployeur"
-  attributes = {
-    type = "SUPPORT",
-    structure = "PASS_EMPLOI"
-  }
-  initial_password {
-    value = "deployeur"
+    value = "jopa"
   }
 }

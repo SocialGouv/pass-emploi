@@ -1,24 +1,19 @@
-FROM scalingo/scalingo-20
+FROM quay.io/keycloak/keycloak:latest as builder
 
-ADD . buildpack
+# Enable health and metrics support
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
 
-ADD .env /env/.env
-RUN buildpack/bin/env.sh /env/.env /env
-RUN buildpack/bin/compile /build /cache /env
-RUN rm -rf /app/bin
-RUN cp -rf /build/bin /app/bin
-RUN rm -rf /app/java
-RUN cp -rf /build/java /app/java
-RUN rm -rf /app/keycloak
-RUN cp -rf /build/keycloak /app/keycloak
-RUN rm -rf /app/tools
-RUN cp -rf /build/tools /app/tools
+# Configure a database vendor
+ENV KC_DB=postgres
 
-EXPOSE 8080
-EXPOSE 8443
+WORKDIR /opt/keycloak
+# for demonstration purposes only, please make sure to use proper certificates in production instead
+RUN keytool -genkeypair -storepass password -storetype PKCS12 -keyalg RSA -keysize 2048 -dname "CN=server" -alias server -ext "SAN:c=DNS:localhost,IP:127.0.0.1" -keystore conf/server.keystore
+RUN /opt/keycloak/bin/kc.sh build
 
-RUN sed -i "/pipefail/a export PATH=\$PATH:\/app\/java\/bin" "/app/bin/run"
+FROM quay.io/keycloak/keycloak:latest
+COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
-ENTRYPOINT [ "/app/bin/run" ]
-
-CMD [ "-b", "0.0.0.0" ]
+# change these values to point to a running postgres instance
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]

@@ -1,6 +1,6 @@
 *.iml
-.env
-*.secret
+*.env
+*.key
 .DS_Store
 .gradle
 .idea

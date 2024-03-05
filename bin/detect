@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# Always accept the Keycloak buildpack
-echo "Keycloak"
-exit 0
