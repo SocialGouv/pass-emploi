@@ -42,7 +42,7 @@ services:
     wait-on-keycloak:
         image: kosprov/wait-on:3.2.0
         command: [ 'http://keycloak:8080' ]
-    provision:
+    provision-local:
         build: ./config/terraform
         user: root
         command: [ 'make', 'apply-local' ]

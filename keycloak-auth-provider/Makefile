@@ -16,8 +16,8 @@ start-keycloak:
 	docker-compose run --rm wait-on-keycloak
 
 provision-local:
-	docker-compose build --no-cache provision
-	docker-compose run --rm provision
+	docker-compose build --no-cache provision-local
+	docker-compose run --rm provision-local
 
 clean: ##Stop and remove containers, volumes and other docker stuff
 	docker-compose down --volumes --rmi local
