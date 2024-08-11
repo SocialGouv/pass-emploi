@@ -7,6 +7,13 @@ resource "keycloak_realm" "pass-emploi" {
   sso_session_max_lifespan                = "1008h"
   sso_session_idle_timeout                = "504h"
   ssl_required                            = var.ssl_required
+  login_theme                             = "keycloak"
+  account_theme                           = "keycloak.v2"
+  admin_theme                             = "keycloak.v2"
+  email_theme                             = "keycloak"
+  registration_email_as_username          = true
+  login_with_email_allowed                = true
+  remember_me                             = true
   #rules: hashAlgorithm specialChars passwordHistory upperCase lowerCase regexPattern digits notUsername forceExpiredPasswordChange hashIterations passwordBlacklist length
   # https://github.com/keycloak/keycloak/blob/main/docs/documentation/server_admin/topics/authentication/password-policies.adoc
   internationalization {
