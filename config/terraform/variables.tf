@@ -1,3 +1,6 @@
+variable "smtp_email_password" {
+  type = string
+}
 variable "ssl_required" {
   type        = string
   default     = "all"

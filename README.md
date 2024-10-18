@@ -42,6 +42,6 @@ make decrypt-staging-f
 4. Lancer le tout
 
 ```
-make start #lance keycloak avec son postgres et applique la configuration terraform
+make start-local #lance keycloak avec son postgres et applique la configuration terraform
 make clean #supprime tous les volumes et images
 ```

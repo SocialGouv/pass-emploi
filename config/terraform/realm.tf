@@ -8,12 +8,15 @@ resource "keycloak_realm" "pass-emploi" {
   sso_session_idle_timeout                = "504h"
   ssl_required                            = var.ssl_required
   login_theme                             = "keycloak"
-  account_theme                           = "keycloak.v2"
+  account_theme                           = "keycloak.v3"
   admin_theme                             = "keycloak.v2"
   email_theme                             = "keycloak"
+  registration_allowed                    = true
   registration_email_as_username          = true
+  verify_email                            = true
   login_with_email_allowed                = true
   remember_me                             = true
+  reset_password_allowed                  = true
   #rules: hashAlgorithm specialChars passwordHistory upperCase lowerCase regexPattern digits notUsername forceExpiredPasswordChange hashIterations passwordBlacklist length
   # https://github.com/keycloak/keycloak/blob/main/docs/documentation/server_admin/topics/authentication/password-policies.adoc
   internationalization {
@@ -22,6 +25,19 @@ resource "keycloak_realm" "pass-emploi" {
     ]
     default_locale = "fr"
   }
+
+  smtp_server {
+    from              = "enregistrement@pass-emploi.beta.gouv.fr"
+    host              = "ssl0.ovh.net"
+    port              = "465"
+    from_display_name = "Pass Emploi"
+    ssl               = true
+    auth {
+      username = "enregistrement@pass-emploi.beta.gouv.fr"
+      password = var.smtp_email_password
+    }
+  }
+
   security_defenses {
     brute_force_detection {
       permanent_lockout                = false
